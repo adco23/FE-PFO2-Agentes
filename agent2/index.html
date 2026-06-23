@@ -1,0 +1,2336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tinta & Alquimia | Imprenta Mágica & Manufactura 3D</title>
+  <!-- Google Fonts Import -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* VARIABLES & THEME DEFINITIONS */
+    :root {
+      --color-parchment: #fcfbf7;
+      --color-parchment-dark: #f5f2eb;
+      --color-starry: #0a1128;
+      --color-starry-light: #131c38;
+      --color-cobalt: #1c3d5a;
+      --color-emerald: #14532d;
+      --color-gold: #dfb15b;
+      --color-amber: #f59e0b;
+      --color-starlight: #fef08a;
+      --color-text-dark: #2c3540;
+      --color-text-light: #e2e8f0;
+      --font-serif: 'Cinzel', serif;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* GLOBAL RESET & SCROLLBAR */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--color-parchment);
+      color: var(--color-text-dark);
+      overflow-x: hidden;
+    }
+
+    /* Custom Scrollbar styled for the theme */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--color-parchment);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-cobalt);
+      border: 2px solid var(--color-parchment);
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--color-gold);
+    }
+
+    /* TYPOGRAPHY HELPERS */
+    .font-serif { font-family: var(--font-serif); }
+    .font-sans { font-family: var(--font-sans); }
+    .text-cobalt { color: var(--color-cobalt); }
+    .text-gold { color: var(--color-gold); }
+    .text-light { color: var(--color-text-light); }
+    .text-dark { color: var(--color-text-dark); }
+    .text-center { text-align: center; }
+    .opacity-8 { opacity: 0.8; }
+    
+    /* LAYOUT CONTAINERS */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* SECTION BACKGROUNDS WITH CUSTOM SVG PATTERNS */
+    .parchment-bg {
+      background-color: var(--color-parchment);
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(245, 242, 235, 0.5) 0%, rgba(230, 225, 215, 0.3) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.15' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.7'/%3E%3C/svg%3E");
+    }
+
+    .starry-bg {
+      background-color: var(--color-starry);
+      background-image: 
+        radial-gradient(circle at 30% 20%, rgba(28, 61, 90, 0.4) 0%, transparent 50%),
+        radial-gradient(circle at 85% 70%, rgba(20, 83, 45, 0.2) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.2' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.02 0'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23noise)'/%3E%3Cg fill='%23fef08a' opacity='0.4'%3E%3Ccircle cx='10' cy='20' r='0.75'/%3E%3Ccircle cx='80' cy='45' r='1'/%3E%3Ccircle cx='130' cy='15' r='0.5'/%3E%3Ccircle cx='40' cy='110' r='0.75'/%3E%3Ccircle cx='110' cy='120' r='1.25'/%3E%3Ccircle cx='140' cy='90' r='0.5'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    /* GOLD BORDER CONTAINER ( respecting border-radius ) */
+    .gold-border-container {
+      position: relative;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--color-gold), var(--color-amber), var(--color-starlight), var(--color-gold));
+      background-size: 200% 200%;
+      animation: goldGlowShimmer 8s linear infinite;
+      padding: 2.5px;
+      box-shadow: 0 8px 24px rgba(10, 17, 40, 0.1);
+    }
+    
+    @keyframes goldGlowShimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .gold-border-inner {
+      border-radius: 10px;
+      height: 100%;
+      width: 100%;
+    }
+
+    /* MAGICAL BUTTON SHAPES */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; /* Organic hand-drawn look */
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer;
+      outline: none;
+    }
+
+    .btn-magic-large {
+      padding: 15px 32px;
+      font-size: 16px;
+      background-color: var(--color-gold);
+      color: var(--color-starry);
+      border: 2px solid var(--color-cobalt);
+      box-shadow: 4px 4px 0px var(--color-cobalt);
+    }
+
+    .btn-magic-large:hover {
+      background-color: var(--color-starlight);
+      transform: translate(-3px, -3px);
+      box-shadow: 7px 7px 0px var(--color-cobalt), 0 0 20px rgba(223, 177, 91, 0.5);
+    }
+
+    .btn-magic-large:active {
+      transform: translate(3px, 3px);
+      box-shadow: 1px 1px 0px var(--color-cobalt);
+    }
+
+    .btn-magic-secondary {
+      padding: 15px 32px;
+      font-size: 16px;
+      background-color: transparent;
+      color: var(--color-cobalt);
+      border: 2px dashed var(--color-cobalt);
+    }
+
+    .btn-magic-secondary:hover {
+      background-color: var(--color-parchment-dark);
+      color: var(--color-gold);
+      border-style: solid;
+      border-color: var(--color-gold);
+      transform: translateY(-2px);
+    }
+
+    .btn-magic-small {
+      padding: 8px 20px;
+      font-size: 13px;
+      background-color: var(--color-gold);
+      color: var(--color-starry);
+      border: 1.5px solid var(--color-cobalt);
+      box-shadow: 2px 2px 0px var(--color-cobalt);
+    }
+
+    .btn-magic-small:hover {
+      background-color: var(--color-starlight);
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0px var(--color-cobalt), 0 0 10px rgba(223, 177, 91, 0.4);
+    }
+
+    /* HEADER */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background-color: rgba(252, 251, 247, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1.5px solid rgba(28, 61, 90, 0.1);
+      transition: all 0.4s ease;
+    }
+
+    header.scrolled {
+      padding: 8px 0;
+      background-color: rgba(252, 251, 247, 0.96);
+      box-shadow: 0 4px 30px rgba(10, 17, 40, 0.08);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 15px 20px;
+      transition: padding 0.4s ease;
+    }
+
+    header.scrolled .nav-container {
+      padding: 10px 20px;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--color-cobalt);
+    }
+
+    .logo-svg {
+      transition: transform 0.6s ease;
+    }
+
+    .logo-wrap:hover .logo-svg {
+      transform: rotate(45deg);
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-title {
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: 1px;
+      line-height: 1.15;
+    }
+
+    .logo-sub {
+      font-family: var(--font-sans);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--color-amber);
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    .nav-link {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--color-cobalt);
+      position: relative;
+      padding: 6px 0;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--color-gold);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--color-gold);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--color-cobalt);
+      padding: 4px;
+    }
+
+    /* HERO SECTION */
+    .hero-section {
+      padding-top: 160px;
+      padding-bottom: 90px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-container {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 50px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-amber);
+      background-color: rgba(245, 158, 11, 0.08);
+      padding: 6px 18px;
+      border-radius: 30px;
+      margin-bottom: 22px;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .hero-title {
+      font-size: 50px;
+      line-height: 1.15;
+      color: var(--color-cobalt);
+      margin-bottom: 24px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--color-text-dark);
+      margin-bottom: 35px;
+      max-width: 600px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 20px;
+    }
+
+    /* HERO 3D PORTAL VISUAL */
+    .hero-visual-wrapper {
+      position: relative;
+      width: 100%;
+      height: 440px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-visual {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      perspective: 1000px;
+    }
+
+    .portal-backdrop {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(19, 28, 56, 0.8) 20%, rgba(10, 17, 40, 0.95) 70%, transparent 100%);
+      border: 1.5px dashed var(--color-gold);
+      opacity: 0.85;
+      animation: pulsePortal 6s ease-in-out infinite alternate;
+      z-index: 1;
+      box-shadow: 0 0 35px rgba(223, 177, 91, 0.25);
+    }
+
+    @keyframes pulsePortal {
+      from { transform: scale(0.95) rotate(0deg); opacity: 0.75; }
+      to { transform: scale(1.05) rotate(20deg); opacity: 0.95; }
+    }
+
+    .magic-platform {
+      position: absolute;
+      width: 290px;
+      height: 290px;
+      transform: rotateX(65deg) rotateZ(0deg);
+      transform-style: preserve-3d;
+      animation: spinPlatform 24s linear infinite;
+      z-index: 2;
+      color: var(--color-gold);
+    }
+
+    @keyframes spinPlatform {
+      from { transform: rotateX(65deg) rotateZ(0deg); }
+      to { transform: rotateX(65deg) rotateZ(360deg); }
+    }
+
+    .magic-circle-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      filter: drop-shadow(0 0 8px rgba(223, 177, 91, 0.5));
+    }
+
+    .floating-object {
+      position: absolute;
+      width: 120px;
+      height: 200px;
+      z-index: 3;
+      top: 15%;
+      animation: floatObject 5s ease-in-out infinite;
+      filter: drop-shadow(0 0 15px rgba(223, 177, 91, 0.45));
+      transform-style: preserve-3d;
+      pointer-events: none;
+      transition: filter 0.5s ease;
+    }
+
+    @keyframes floatObject {
+      0% { transform: translateY(0px) rotateY(0deg) scale(1); }
+      50% { transform: translateY(-16px) rotateY(180deg) scale(1.04); }
+      100% { transform: translateY(0px) rotateY(360deg) scale(1); }
+    }
+
+    .light-beam {
+      position: absolute;
+      width: 50px;
+      height: 240px;
+      background: linear-gradient(to top, rgba(254, 240, 138, 0.35), transparent);
+      bottom: 50%;
+      left: calc(50% - 25px);
+      z-index: 2;
+      filter: blur(8px);
+      opacity: 0.4;
+      pointer-events: none;
+      transform-origin: bottom center;
+      transform: rotateX(65deg) translateZ(3px);
+      animation: pulseBeam 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseBeam {
+      from { opacity: 0.25; height: 190px; }
+      to { opacity: 0.65; height: 260px; }
+    }
+
+    .ring-spark {
+      position: absolute;
+      font-size: 15px;
+      color: var(--color-gold);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 5;
+      animation: floatSpark 4s infinite linear;
+    }
+    
+    .ring-spark.sp-1 { left: 45%; animation-delay: 0s; --x-offset: -35px; }
+    .ring-spark.sp-2 { left: 55%; animation-delay: 1.2s; --x-offset: 45px; }
+    .ring-spark.sp-3 { left: 38%; animation-delay: 2.4s; --x-offset: -55px; }
+    .ring-spark.sp-4 { left: 62%; animation-delay: 3.6s; --x-offset: 35px; }
+
+    @keyframes floatSpark {
+      0% { transform: translateY(90px) translateX(0) scale(0); opacity: 0; }
+      25% { opacity: 1; }
+      80% { opacity: 0.8; }
+      100% { transform: translateY(-90px) translateX(var(--x-offset)) scale(1.3) rotate(360deg); opacity: 0; }
+    }
+
+    /* INTERACTION HOVER EFFECT FOR HERO VISUAL */
+    .hero-visual-wrapper:hover .magic-platform {
+      animation-duration: 7s;
+      color: var(--color-starlight);
+    }
+    .hero-visual-wrapper:hover .floating-object {
+      animation: floatObjectHover 2.5s ease-in-out infinite;
+      filter: drop-shadow(0 0 25px rgba(245, 158, 11, 0.8));
+    }
+    .hero-visual-wrapper:hover .light-beam {
+      opacity: 0.75;
+      background: linear-gradient(to top, rgba(254, 240, 138, 0.6), transparent);
+    }
+
+    @keyframes floatObjectHover {
+      0% { transform: translateY(-15px) rotateY(0deg) scale(1.08); }
+      50% { transform: translateY(-35px) rotateY(180deg) scale(1.14); }
+      100% { transform: translateY(-15px) rotateY(360deg) scale(1.08); }
+    }
+
+    /* ABOUT US SECTION */
+    .about-section {
+      padding: 100px 0;
+      border-top: 1.5px solid rgba(28, 61, 90, 0.08);
+      border-bottom: 1.5px solid rgba(28, 61, 90, 0.08);
+      position: relative;
+    }
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .section-title {
+      font-size: 38px;
+      color: var(--color-cobalt);
+      margin-bottom: 15px;
+      font-weight: 700;
+      position: relative;
+    }
+
+    .hand-drawn-divider {
+      width: 140px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-gold), var(--color-amber));
+      margin-bottom: 30px;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    }
+
+    .about-paragraph {
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--color-text-dark);
+      margin-bottom: 22px;
+    }
+
+    .drop-cap {
+      font-size: 68px;
+      float: left;
+      line-height: 52px;
+      padding-right: 14px;
+      padding-top: 6px;
+      color: var(--color-cobalt);
+      font-weight: 900;
+      text-shadow: 2px 2px 0px var(--color-gold);
+    }
+
+    /* INTERACTIVE FRAME */
+    .atelier-interactive-frame {
+      width: 100%;
+    }
+
+    .atelier-interactive-frame .gold-border-inner {
+      padding: 30px;
+    }
+
+    .pilar-buttons {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1.5px solid var(--color-cobalt);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      gap: 8px;
+    }
+
+    .pilar-btn {
+      background: none;
+      border: none;
+      font-family: var(--font-serif);
+      font-size: 14px;
+      color: var(--color-cobalt);
+      opacity: 0.65;
+      cursor: pointer;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+      border-radius: 6px;
+    }
+
+    .pilar-btn:hover {
+      opacity: 1;
+      color: var(--color-amber);
+    }
+
+    .pilar-btn.active {
+      opacity: 1;
+      color: var(--color-gold);
+      background-color: var(--color-cobalt);
+      border-bottom: 2px solid var(--color-gold);
+    }
+
+    .pilar-btn svg {
+      stroke: currentColor;
+      transition: transform 0.3s ease;
+    }
+
+    .pilar-btn.active svg {
+      stroke: var(--color-gold);
+    }
+
+    .pilar-content {
+      position: relative;
+      min-height: 200px;
+    }
+
+    .pilar-detail {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      transform: translateY(15px);
+    }
+
+    .pilar-detail.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .pilar-detail h4 {
+      color: var(--color-cobalt);
+      margin-bottom: 10px;
+      font-size: 19px;
+    }
+
+    .pilar-detail p {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--color-text-dark);
+    }
+
+    .pilar-status {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-emerald);
+      margin-top: 15px;
+      border-top: 1px dashed rgba(28, 61, 90, 0.25);
+      padding-top: 10px;
+    }
+
+    /* SERVICES SECTION */
+    .services-section {
+      padding: 100px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+    }
+
+    .discipline-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 35px;
+      color: var(--color-gold);
+      border-bottom: 1.5px dashed rgba(223, 177, 91, 0.3);
+      padding-bottom: 18px;
+    }
+
+    .discipline-header h3 {
+      font-size: 26px;
+    }
+
+    .discipline-icon {
+      background-color: rgba(223, 177, 91, 0.08);
+      padding: 12px;
+      border-radius: 50%;
+      border: 1px solid var(--color-gold);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .service-card {
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .service-card .card-content {
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      height: 100%;
+    }
+
+    .card-magic-circle-bg {
+      position: absolute;
+      right: -35px;
+      bottom: -35px;
+      color: var(--color-gold);
+      opacity: 0.06;
+      transition: opacity 0.4s ease, transform 15s linear;
+      pointer-events: none;
+    }
+
+    .service-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .service-card:hover .card-magic-circle-bg {
+      opacity: 0.18;
+      transform: rotate(360deg);
+    }
+
+    .service-card h4 {
+      font-size: 21px;
+      margin-bottom: 12px;
+    }
+
+    .service-card p {
+      font-size: 14.5px;
+      line-height: 1.65;
+      opacity: 0.85;
+      margin-bottom: 18px;
+    }
+
+    .service-tag {
+      display: inline-block;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--color-starlight);
+      border: 1px solid var(--color-starlight);
+      padding: 3px 10px;
+      border-radius: 4px;
+      background-color: rgba(254, 240, 138, 0.06);
+    }
+
+    /* TESTIMONIALS ( TAROT STYLE ) */
+    .testimonials-section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .tarot-card {
+      background-color: var(--color-starry);
+      color: var(--color-parchment);
+      border-radius: 12px;
+      padding: 3px;
+      box-shadow: 0 10px 30px rgba(10, 17, 40, 0.15);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+    }
+
+    .tarot-card:hover {
+      transform: translateY(-8px) rotate(1.2deg);
+      box-shadow: 0 15px 45px rgba(245, 158, 11, 0.28);
+    }
+
+    .tarot-card-inner {
+      background-color: var(--color-starry-light);
+      border: 1.5px solid var(--color-gold);
+      border-radius: 10px;
+      padding: 28px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tarot-card-inner::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      right: 6px;
+      bottom: 6px;
+      border: 1px dashed rgba(223, 177, 91, 0.25);
+      pointer-events: none;
+    }
+
+    .tarot-header {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      font-size: 13px;
+      color: var(--color-gold);
+      letter-spacing: 2px;
+      margin-bottom: 18px;
+    }
+
+    .tarot-avatar-frame {
+      width: 96px;
+      height: 96px;
+      border: 2px solid var(--color-gold);
+      border-radius: 50%;
+      padding: 4px;
+      background-color: var(--color-starry);
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .tarot-avatar {
+      width: 100%;
+      height: 100%;
+    }
+
+    .tarot-rating {
+      color: var(--color-amber);
+      font-size: 19px;
+      margin-bottom: 16px;
+      letter-spacing: 2px;
+    }
+
+    .tarot-quote {
+      font-size: 14.5px;
+      line-height: 1.65;
+      font-style: italic;
+      opacity: 0.9;
+      margin-bottom: 22px;
+    }
+
+    .tarot-name {
+      font-size: 18px;
+      color: var(--color-gold);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .tarot-role {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      opacity: 0.75;
+    }
+
+    /* SPELLBOOK CONTACT FORM */
+    .contact-section {
+      padding: 100px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .spellbook-container {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      max-width: 1040px;
+      margin: 40px auto;
+      border-radius: 16px;
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.45);
+      background-color: var(--color-parchment);
+      border: 4px double var(--color-cobalt);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .spellbook-left {
+      background-color: var(--color-parchment);
+      padding: 45px;
+      border-right: 2px dashed rgba(28, 61, 90, 0.2);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: filter 0.4s ease;
+    }
+
+    .spellbook-right {
+      background-color: var(--color-parchment-dark);
+      padding: 45px;
+    }
+
+    .spellbook-rules {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 20px;
+    }
+
+    .spellbook-rules li {
+      font-size: 14.5px;
+      line-height: 1.55;
+      color: var(--color-text-dark);
+      margin-bottom: 15px;
+      position: relative;
+      padding-left: 24px;
+    }
+
+    .spellbook-rules li::before {
+      content: '✦';
+      position: absolute;
+      left: 0;
+      color: var(--color-gold);
+    }
+
+    .runic-decorations-left {
+      display: flex;
+      justify-content: space-around;
+      color: var(--color-cobalt);
+      font-size: 20px;
+      opacity: 0.4;
+      border-top: 1px dashed rgba(28, 61, 90, 0.2);
+      padding-top: 18px;
+      margin-top: 25px;
+    }
+
+    /* INTERACTIVE CANDLE */
+    .spellbook-candle-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 35px 0;
+    }
+
+    .candle {
+      position: relative;
+      width: 24px;
+      height: 85px;
+      cursor: pointer;
+    }
+
+    .wax {
+      position: absolute;
+      bottom: 0;
+      width: 24px;
+      height: 65px;
+      background: linear-gradient(to right, var(--color-parchment-dark), #e5dec9);
+      border-radius: 4px;
+      border: 1.5px solid var(--color-cobalt);
+      box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.5);
+    }
+
+    .wick {
+      position: absolute;
+      bottom: 65px;
+      left: 11px;
+      width: 2px;
+      height: 10px;
+      background-color: #333;
+    }
+
+    .flame {
+      position: absolute;
+      bottom: 74px;
+      left: 6px;
+      width: 12px;
+      height: 24px;
+      background: radial-gradient(circle at center, var(--color-starlight) 20%, var(--color-amber) 70%, transparent 100%);
+      border-radius: 50% 50% 20% 20% / 60% 60% 40% 40%;
+      box-shadow: 0 0 10px var(--color-amber), 0 0 20px var(--color-gold);
+      animation: flicker 1.4s ease-in-out infinite alternate;
+      transform-origin: bottom center;
+    }
+
+    @keyframes flicker {
+      0% { transform: scale(1) rotate(-1deg) skewX(-1deg); }
+      100% { transform: scale(1.12) rotate(2deg) skewX(2deg); }
+    }
+
+    .candle.extinguished .flame {
+      display: none;
+    }
+
+    .candle-hint {
+      font-size: 11px;
+      color: var(--color-text-dark);
+      font-style: italic;
+      margin-top: 10px;
+      text-align: center;
+      opacity: 0.75;
+      pointer-events: none;
+    }
+
+    /* FORM ELEMENTS */
+    .form-group {
+      position: relative;
+      margin-bottom: 26px;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 13px 18px;
+      border: 1.5px solid var(--color-cobalt);
+      background-color: var(--color-parchment);
+      color: var(--color-text-dark);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; /* Sketch border */
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 110px;
+      border-radius: 15px 25px 15px 25px / 25px 15px 25px 15px;
+    }
+
+    .form-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c3d5a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 18px;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--color-amber);
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.35);
+    }
+
+    .form-label {
+      position: absolute;
+      left: 18px;
+      top: 15px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: var(--color-cobalt);
+      opacity: 0.7;
+      pointer-events: none;
+      transition: all 0.25s ease;
+    }
+
+    /* Floating Labels Logic */
+    .form-input:focus + .form-label,
+    .form-input:not(:placeholder-shown) + .form-label,
+    .form-textarea:focus + .form-label,
+    .form-textarea:not(:placeholder-shown) + .form-label,
+    .form-select:focus + .form-label,
+    .form-select:valid + .form-label {
+      top: -10px;
+      left: 14px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-amber);
+      background-color: var(--color-parchment-dark);
+      padding: 0 6px;
+      opacity: 1;
+    }
+
+    .form-checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .form-checkbox {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--color-amber);
+      cursor: pointer;
+    }
+
+    .form-checkbox-label {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--color-text-dark);
+      cursor: pointer;
+      line-height: 1.4;
+    }
+
+    .form-error {
+      display: none;
+      font-size: 11px;
+      color: #b91c1c;
+      margin-top: 5px;
+      font-weight: 700;
+    }
+
+    .form-group.invalid .form-input,
+    .form-group.invalid .form-select,
+    .form-group.invalid .form-textarea {
+      border-color: #b91c1c;
+      background-color: #fef2f2;
+    }
+
+    .form-group.invalid .form-error {
+      display: block;
+    }
+
+    /* FOOTER */
+    .footer {
+      padding: 85px 0 35px 0;
+      border-top: 1.5px solid rgba(223, 177, 91, 0.2);
+    }
+
+    .footer-container {
+      display: grid;
+      grid-template-columns: 1.25fr 0.85fr 0.9fr;
+      gap: 60px;
+    }
+
+    .footer-desc {
+      font-size: 14px;
+      line-height: 1.65;
+      margin-bottom: 22px;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 15px;
+    }
+
+    .social-link {
+      color: var(--color-parchment);
+      background-color: var(--color-starry-light);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid var(--color-gold);
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .social-link:hover {
+      color: var(--color-starry);
+      background-color: var(--color-gold);
+      box-shadow: 0 0 12px var(--color-gold);
+      transform: translateY(-3px);
+    }
+
+    .footer-hours h4, .footer-links h4 {
+      font-size: 19px;
+      margin-bottom: 22px;
+    }
+
+    .hours-list, .footer-links-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .hours-list li {
+      font-size: 14px;
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+
+    .footer-links-list li {
+      margin-bottom: 12px;
+    }
+
+    .footer-link {
+      color: var(--color-text-light);
+      opacity: 0.8;
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .footer-link:hover {
+      color: var(--color-gold);
+      opacity: 1;
+      padding-left: 6px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      border-top: 1px solid rgba(223, 177, 91, 0.1);
+      margin-top: 70px;
+      padding-top: 35px;
+      font-size: 13.5px;
+      color: var(--color-text-light);
+      opacity: 0.6;
+    }
+
+    /* SCROLL ANIMATION INITIAL STATES */
+    .fade-up-init {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .fade-up-init.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* CLICK SPARKLES EFFECT */
+    .click-sparkle {
+      position: fixed;
+      pointer-events: none;
+      font-size: 15px;
+      transform: translate(-50%, -50%);
+      animation: explodeSparkle 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+      z-index: 9999;
+    }
+
+    @keyframes explodeSparkle {
+      0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+      100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.3); opacity: 0; }
+    }
+
+    /* MOBILE OVERLAY MENU */
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: var(--color-starry);
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .mobile-menu-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-menu-close {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      background: none;
+      border: none;
+      color: var(--color-gold);
+      cursor: pointer;
+    }
+
+    .mobile-menu-links {
+      list-style: none;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .mobile-menu-link {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      text-decoration: none;
+      color: var(--color-parchment);
+      transition: color 0.3s ease;
+    }
+
+    .mobile-menu-link:hover {
+      color: var(--color-gold);
+    }
+
+    /* LOADING & CONJURING OVERLAYS */
+    .conjuring-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(10, 17, 40, 0.96);
+      z-index: 3000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    .conjuring-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .conjuring-content {
+      text-align: center;
+      color: var(--color-parchment);
+    }
+
+    .conjuring-content h3 {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      color: var(--color-gold);
+      margin-top: 22px;
+      letter-spacing: 1px;
+    }
+
+    .conjuring-content p {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: var(--color-text-light);
+      opacity: 0.8;
+      margin-top: 6px;
+    }
+
+    .loading-magic-circle {
+      animation: spinLoadingCircle 9s linear infinite;
+    }
+
+    .spinner-center {
+      animation: spinLoadingCircle 2.2s linear infinite reverse;
+    }
+
+    @keyframes spinLoadingCircle {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* SUCCESS MODAL */
+    .success-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(10, 17, 40, 0.85);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 3001;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .success-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .success-modal {
+      max-width: 520px;
+      width: 90%;
+      transform: scale(0.85);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+    }
+
+    .success-modal-overlay.active .success-modal {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .success-seal {
+      margin-bottom: 22px;
+    }
+
+    /* MEDIA QUERIES RESPONSIVIDAD */
+    @media (max-width: 991px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 60px;
+      }
+      .hero-actions {
+        justify-content: center;
+      }
+      .hero-visual-wrapper {
+        margin: 0 auto;
+      }
+      .about-layout {
+        grid-template-columns: 1fr;
+        gap: 50px;
+      }
+      .services-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+        max-width: 460px;
+        margin: 0 auto;
+      }
+      .spellbook-container {
+        grid-template-columns: 1fr;
+        max-width: 580px;
+      }
+      .spellbook-left {
+        border-right: none;
+        border-bottom: 2px dashed rgba(28, 61, 90, 0.2);
+        padding: 40px 30px;
+      }
+      .spellbook-right {
+        padding: 40px 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 10px 0;
+      }
+      .nav-links {
+        display: none;
+      }
+      .nav-cta {
+        display: none;
+      }
+      .mobile-toggle {
+        display: block;
+      }
+      .hero-title {
+        font-size: 38px;
+      }
+      .footer-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- EMBEDDED NON-VISIBLE HAND-DRAWN FILTER SVG -->
+  <svg style="position: absolute; width: 0; height: 0;" width="0" height="0">
+    <defs>
+      <filter id="hand-drawn">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- HEADER -->
+  <header id="header">
+    <div class="nav-container">
+      <a href="#inicio" class="logo-wrap">
+        <svg class="logo-svg" viewBox="0 0 100 100" width="38" height="38" fill="none" stroke="currentColor">
+          <circle cx="50" cy="50" r="45" stroke="#1c3d5a" stroke-width="2" />
+          <circle cx="50" cy="50" r="38" stroke="#dfb15b" stroke-width="1.5" stroke-dasharray="3 2" />
+          <!-- Quill (Pen) -->
+          <path d="M 35,65 L 60,40" stroke="#1c3d5a" stroke-width="3" stroke-linecap="round" />
+          <path d="M 62,38 L 65,25 L 57,33 Z" fill="#1c3d5a" />
+          <!-- Extruder nozzle crossing -->
+          <path d="M 65,65 L 40,40" stroke="#1c3d5a" stroke-width="3" stroke-linecap="round" />
+          <path d="M 33,37 L 25,35 L 28,42 Z" fill="#1c3d5a" />
+          <!-- Star in middle -->
+          <path d="M 50,42 L 52,48 L 58,50 L 52,52 L 50,58 L 48,52 L 42,50 L 48,48 Z" fill="#dfb15b" />
+        </svg>
+        <div class="logo-text">
+          <span class="logo-title font-serif">TINTA & ALQUIMIA</span>
+          <span class="logo-sub">Imprenta Mágica & 3D</span>
+        </div>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="#inicio" class="nav-link">Inicio</a></li>
+        <li><a href="#atelier" class="nav-link">El Atelier</a></li>
+        <li><a href="#servicios" class="nav-link">Servicios</a></li>
+        <li><a href="#reseñas" class="nav-link">Reseñas</a></li>
+        <li><a href="#contacto" class="nav-link">Contacto</a></li>
+      </ul>
+      
+      <div class="nav-cta">
+        <a href="#contacto" class="btn btn-magic-small">Invocar Pedido</a>
+      </div>
+
+      <button class="mobile-toggle" aria-label="Abrir Menú">
+        <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-menu-overlay">
+    <button class="mobile-menu-close" aria-label="Cerrar Menú">
+      <svg viewBox="0 0 24 24" width="30" height="30" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <ul class="mobile-menu-links">
+      <li><a href="#inicio" class="mobile-menu-link">Inicio</a></li>
+      <li><a href="#atelier" class="mobile-menu-link">El Atelier</a></li>
+      <li><a href="#servicios" class="mobile-menu-link">Servicios</a></li>
+      <li><a href="#reseñas" class="mobile-menu-link">Reseñas</a></li>
+      <li><a href="#contacto" class="mobile-menu-link">Contacto</a></li>
+      <li style="margin-top: 15px;"><a href="#contacto" class="btn btn-magic-large">Invocar Pedido</a></li>
+    </ul>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section id="inicio" class="hero-section parchment-bg">
+    <div class="container hero-container">
+      <div class="hero-content fade-up-init">
+        <div class="hero-badge">Estudio Gráfico & Manufactura Mística</div>
+        <h1 class="hero-title font-serif">Donde la Tinta se Vuelve Realidad y el Hilo Crea Mundos</h1>
+        <p class="hero-subtitle font-sans">
+          Bienvenido a <strong>Tinta & Alquimia</strong>. Fusionamos la antigua artesanía de la imprenta manual con la alquimia tecnológica de la impresión 3D. Damos forma tangible a grimorios encuadernados a mano, pergaminos con tintas reactivas y artefactos tridimensionales forjados con filamentos estelares.
+        </p>
+        <div class="hero-actions">
+          <a href="#contacto" class="btn btn-magic-large">Invocar un Pedido</a>
+          <a href="#atelier" class="btn btn-magic-secondary">Explorar el Atelier</a>
+        </div>
+      </div>
+      
+      <div class="hero-visual-wrapper">
+        <div class="hero-visual">
+          <!-- Starry sky backdrop inside the frame -->
+          <div class="portal-backdrop"></div>
+          
+          <!-- Light beam of materialize -->
+          <div class="light-beam"></div>
+          
+          <!-- 3D Rotating Magic Platform -->
+          <div class="magic-platform">
+            <svg class="magic-circle-svg" viewBox="0 0 200 200">
+              <defs>
+                <path id="heroTextPath" d="M 100, 100 m -66, 0 a 66,66 0 1,1 132,0 a 66,66 0 1,1 -132,0" />
+              </defs>
+              <circle cx="100" cy="100" r="92" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="6 4" />
+              <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1" />
+              
+              <!-- Star of David / Octagram geometry -->
+              <path d="M 100,15 L 185,100 L 100,185 L 15,100 Z" fill="none" stroke="currentColor" stroke-width="0.8" />
+              <path d="M 40,40 L 160,40 L 160,160 L 40,160 Z" fill="none" stroke="currentColor" stroke-width="0.8" transform="rotate(45 100 100)" />
+              
+              <circle cx="100" cy="100" r="69" fill="none" stroke="currentColor" stroke-width="1.2" />
+              
+              <text font-family="'Cinzel', serif" font-size="7.5" fill="currentColor" letter-spacing="1.5">
+                <textPath href="#heroTextPath" startOffset="0%">• TINTA Y ALQUIMIA • IMPRESIÓN MÁGICA 2D Y 3D •</textPath>
+              </text>
+              
+              <circle cx="100" cy="100" r="54" fill="none" stroke="currentColor" stroke-width="1" />
+              <circle cx="100" cy="100" r="48" fill="none" stroke="currentColor" stroke-width="0.5" stroke-dasharray="2 2" />
+              
+              <!-- Inward pointing runic triangles -->
+              <path d="M 100,52 L 141,124 L 59,124 Z" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.7" />
+              <path d="M 100,148 L 141,76 L 59,76 Z" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.7" />
+              
+              <circle cx="100" cy="100" r="20" fill="none" stroke="currentColor" stroke-width="1.5" />
+              <circle cx="100" cy="100" r="6" fill="currentColor" />
+            </svg>
+          </div>
+          
+          <!-- Floating Object: Key representing Quill & Filament structure -->
+          <div class="floating-object">
+            <svg viewBox="0 0 100 180" width="100%" height="100%">
+              <!-- Key Head (decorated gear) -->
+              <circle cx="50" cy="45" r="25" fill="none" stroke="var(--color-gold)" stroke-width="2.5" />
+              <circle cx="50" cy="45" r="21" fill="none" stroke="var(--color-gold)" stroke-width="1" stroke-dasharray="3 2" />
+              
+              <g transform="translate(50,45)">
+                <circle cx="0" cy="0" r="10" fill="none" stroke="var(--color-starlight)" stroke-width="2" />
+                <path d="M 0,-12 L 0,-8 M 0,8 L 0,12 M -12,0 L -8,0 M 8,0 L 12,0 M -8,-8 L -5,-5 M 5,5 L 8,8 M -8,8 L -5,5 M 5,-5 L 8,-8" stroke="var(--color-starlight)" stroke-width="2" stroke-linecap="round" />
+                <path d="M 0,-4 L 1,-1 L 4,0 L 1,1 L 0,4 L -1,1 L -4,0 L -1,-1 Z" fill="var(--color-amber)" />
+              </g>
+              
+              <!-- Key Shaft (Quill Body) -->
+              <line x1="50" y1="70" x2="50" y2="135" stroke="var(--color-gold)" stroke-width="3" stroke-linecap="round" />
+              <path d="M 50,75 C 65,85 65,115 50,125 C 35,115 35,85 50,75 Z" fill="none" stroke="var(--color-gold)" stroke-width="1.5" />
+              <path d="M 50,85 C 60,92 60,105 50,112 C 40,105 40,92 50,85 Z" fill="none" stroke="var(--color-starlight)" stroke-width="1" />
+              
+              <line x1="50" y1="83" x2="60" y2="78" stroke="var(--color-gold)" stroke-width="1" />
+              <line x1="50" y1="93" x2="62" y2="88" stroke="var(--color-gold)" stroke-width="1" />
+              <line x1="50" y1="103" x2="61" y2="98" stroke="var(--color-gold)" stroke-width="1" />
+              <line x1="50" y1="113" x2="58" y2="108" stroke="var(--color-gold)" stroke-width="1" />
+              <line x1="50" y1="83" x2="40" y2="78" stroke="var(--color-gold)" stroke-width="1" />
+              <line x1="50" y1="93" x2="38" y2="88" stroke="var(--color-gold)" stroke-width="1" />
+              <line x1="50" y1="103" x2="39" y2="98" stroke="var(--color-gold)" stroke-width="1" />
+              <line x1="50" y1="113" x2="42" y2="108" stroke="var(--color-gold)" stroke-width="1" />
+              
+              <!-- Key Bit (nozzle & layered block) -->
+              <g transform="translate(50, 135)">
+                <path d="M 0,0 L 15,0 L 15,20 L 5,20 L 5,10 L 0,10 Z" fill="none" stroke="var(--color-gold)" stroke-width="2" stroke-linejoin="round" />
+                <line x1="3" y1="4" x2="12" y2="4" stroke="var(--color-starlight)" stroke-width="1.5" />
+                <line x1="3" y1="8" x2="12" y2="8" stroke="var(--color-starlight)" stroke-width="1.5" />
+                <line x1="7" y1="12" x2="12" y2="12" stroke="var(--color-starlight)" stroke-width="1.5" />
+                <line x1="7" y1="16" x2="12" y2="16" stroke="var(--color-starlight)" stroke-width="1.5" />
+                <path d="M -2,0 L 2,0 L 0,8 Z" fill="var(--color-gold)" />
+                <circle cx="0" cy="12" r="3" fill="var(--color-amber)" />
+              </g>
+            </svg>
+          </div>
+          
+          <!-- Sparkles -->
+          <div class="ring-spark sp-1">✦</div>
+          <div class="ring-spark sp-2">★</div>
+          <div class="ring-spark sp-3">✧</div>
+          <div class="ring-spark sp-4">✦</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT US / EL ATELIER SECTION -->
+  <section id="atelier" class="about-section parchment-bg">
+    <div class="container about-container">
+      <div class="about-layout">
+        <div class="about-text fade-up-init">
+          <h2 class="section-title font-serif">El Atelier: Tinta & Alquimia</h2>
+          <div class="hand-drawn-divider"></div>
+          <p class="about-paragraph font-sans leading-relaxed">
+            <span class="drop-cap font-serif">E</span>n los confines donde la tradición besa la vanguardia gráfica, nuestro taller florece como un santuario de creación artesanal. Fundado por maestros entusiastas de la encuadernación clásica y la modelación tridimensional, <strong>Tinta & Alquimia</strong> nació de una premisa simple: todo pensamiento noble y diseño sabio merece ser materializado con honor, belleza y durabilidad.
+          </p>
+          <p class="about-paragraph font-sans leading-relaxed">
+            No somos una imprenta ordinaria; somos custodios de un oficio sagrado. Cada una de nuestras tintas mágicas se mezcla meticulosamente a mano, infusionando éter vegetal y pigmentos puros que reaccionan ante el calor o la luz de la luna. Paralelamente, en la cuna caliente de nuestros extrusores, hilos de polímeros compostables y polvo de bronce son fundidos capa por capa para transmutar en runas o engranajes tangibles con peso real.
+          </p>
+          <p class="about-paragraph font-sans leading-relaxed">
+            Aquí la dedicación humana se encuentra con la precisión de la alquimia moderna. Cada tomo cosido con hilo encerado o amuleto impreso en 3D se produce bajo una estricta ética de calidad y sostenibilidad, asegurando que el conocimiento de tu reino perdure intacto por generaciones.
+          </p>
+        </div>
+        
+        <div class="about-visual fade-up-init">
+          <!-- Interactive Pillars widget -->
+          <div class="atelier-interactive-frame gold-border-container">
+            <div class="gold-border-inner parchment-bg">
+              <h3 class="font-serif text-cobalt text-center" style="margin-bottom: 20px;">Los Tres Pilares del Oficio</h3>
+              
+              <div class="pilar-buttons">
+                <button class="pilar-btn active" data-pilar="pluma">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                  La Pluma
+                </button>
+                <button class="pilar-btn" data-pilar="alquimia">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22h20"></path><path d="M5 22V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v18"></path><path d="M9 18h6"></path><path d="M9 14h6"></path></svg>
+                  El Extrusor
+                </button>
+                <button class="pilar-btn" data-pilar="grimorio">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                  El Grimorio
+                </button>
+              </div>
+              
+              <div class="pilar-content">
+                <div class="pilar-detail active" id="detail-pluma">
+                  <h4 class="font-serif text-cobalt">La Pluma de Éter (Tinta 2D)</h4>
+                  <p class="font-sans">Un instrumento clásico con plumilla de oro alquímico. Trazamos mapas celestiales y diagramas que guían las corrientes de energía. Sus tintas termosensibles e invisibles de noche se revelan bajo la calidez de un candil, dando vida a secretos insospechados.</p>
+                  <div class="pilar-status">Precisión de Trazo: Flujo Continuo | Tipo de Tintas: Orgánicas Reactivas</div>
+                </div>
+                <div class="pilar-detail" id="detail-alquimia">
+                  <h4 class="font-serif text-cobalt">El Extrusor de Fuego (Alquimia 3D)</h4>
+                  <p class="font-sans">La plataforma de materialización física. A 215 grados, la boquilla funde resinas cargadas de partículas metálicas o compuestos fluorescentes. Capa tras capa de filamento estelar, la figura geométrica o amuleto cobra volumen y peso real.</p>
+                  <div class="pilar-status">Resolución de Capa: 50 Micras | Materiales: Bronce Místico, Cobre, Resina 8K</div>
+                </div>
+                <div class="pilar-detail" id="detail-grimorio">
+                  <h4 class="font-serif text-cobalt">Encuadernación de Sabiduría (Costura)</h4>
+                  <p class="font-sans">Nuestras encuadernaciones se realizan cociendo pliego a pliego con costura copta o espina de pescado, usando hilo de cáñamo encerado. Cubiertos con cuero grabado al calor, estos volúmenes actúan como escudos eternos para tus conjuros.</p>
+                  <div class="pilar-status">Vida Útil Estimada: 500 Años | Refuerzo Rúnico: Contra Humedad e Incendios</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES SECTION / LAS ARTES DEL TALLER -->
+  <section id="servicios" class="services-section starry-bg">
+    <div class="container">
+      <div class="text-center fade-up-init" style="margin-bottom: 60px;">
+        <div class="hero-badge" style="background-color: rgba(223, 177, 91, 0.1); border-color: rgba(223, 177, 91, 0.25);">Catálogo del Gremio</div>
+        <h2 class="section-title font-serif" style="color: var(--color-parchment);">Las Artes del Taller</h2>
+        <div class="hand-drawn-divider" style="margin: 15px auto 25px auto;"></div>
+        <p class="section-subtitle font-sans" style="color: var(--color-text-light); max-width: 600px; margin: 0 auto; opacity: 0.8;">
+          Dividimos nuestros encantos en dos disciplinas fundamentales. Elige tu sendero de creación o combina ambos en un solo encargo.
+        </p>
+      </div>
+      
+      <div class="services-grid">
+        <!-- 2D Services Column -->
+        <div class="services-column fade-up-init">
+          <div class="discipline-header">
+            <div class="discipline-icon">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            </div>
+            <h3 class="font-serif">Artes de la Tinta (Impresión 2D)</h3>
+          </div>
+          
+          <div class="cards-list">
+            <!-- Card 1 -->
+            <div class="service-card gold-border-container">
+              <div class="gold-border-inner starry-bg card-content">
+                <div class="card-magic-circle-bg">
+                  <svg viewBox="0 0 100 100" width="130" height="130" stroke="currentColor" fill="none">
+                    <circle cx="50" cy="50" r="45" stroke-dasharray="4 4" stroke-width="1"/>
+                    <circle cx="50" cy="50" r="35" stroke-width="0.8"/>
+                    <polygon points="50,15 80,75 20,75" stroke-width="0.8"/>
+                  </svg>
+                </div>
+                <h4 class="font-serif text-gold">Grimorios de Tapas de Cuero</h4>
+                <p class="font-sans text-light">Encuadernación de pliegos antiguos cosidos a mano. Cubiertas de cuero curtido con relieves dorados al calor. Ideal para manuales de magia, diarios de viaje o bitácoras alquímicas de estudio.</p>
+                <div class="service-tag">Papel Envejecido</div>
+              </div>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="service-card gold-border-container">
+              <div class="gold-border-inner starry-bg card-content">
+                <div class="card-magic-circle-bg">
+                  <svg viewBox="0 0 100 100" width="130" height="130" stroke="currentColor" fill="none">
+                    <circle cx="50" cy="50" r="45" stroke-dasharray="6 2" stroke-width="1"/>
+                    <polygon points="50,15 75,40 75,75 25,75 25,40" stroke-width="0.8"/>
+                  </svg>
+                </div>
+                <h4 class="font-serif text-gold">Pergaminos Celestes Reactivos</h4>
+                <p class="font-sans text-light">Mapas estelares y cartas de navegación impresas con tintas reactivas al calor o luz ultravioleta. Los senderos ocultos y anotaciones secretas se revelan solo ante el fuego de una vela.</p>
+                <div class="service-tag">Tinta Reactiva</div>
+              </div>
+            </div>
+            
+            <!-- Card 3 -->
+            <div class="service-card gold-border-container">
+              <div class="gold-border-inner starry-bg card-content">
+                <div class="card-magic-circle-bg">
+                  <svg viewBox="0 0 100 100" width="130" height="130" stroke="currentColor" fill="none">
+                    <circle cx="50" cy="50" r="45" stroke-width="1"/>
+                    <line x1="50" y1="5" x2="50" y2="95" stroke-width="0.8"/>
+                    <line x1="5" y1="50" x2="95" y2="50" stroke-width="0.8"/>
+                  </svg>
+                </div>
+                <h4 class="font-serif text-gold">Correspondencia Rúnica & Naipes</h4>
+                <p class="font-sans text-light">Tarjetas de presentación grabadas con sellos de lacre, cartas formales de gremio e barajas ilustradas con cantos metalizados y texturas de algodón de altísima densidad.</p>
+                <div class="service-tag">Relieve & Foil Oro</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 3D Services Column -->
+        <div class="services-column fade-up-init">
+          <div class="discipline-header">
+            <div class="discipline-icon">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            </div>
+            <h3 class="font-serif">Alquimia de Hilos (Impresión 3D)</h3>
+          </div>
+          
+          <div class="cards-list">
+            <!-- Card 4 -->
+            <div class="service-card gold-border-container">
+              <div class="gold-border-inner starry-bg card-content">
+                <div class="card-magic-circle-bg">
+                  <svg viewBox="0 0 100 100" width="130" height="130" stroke="currentColor" fill="none">
+                    <circle cx="50" cy="50" r="45" stroke-dasharray="2 4" stroke-width="1"/>
+                    <path d="M30,30 L70,30 L70,70 L30,70 Z" transform="rotate(15 50 50)" stroke-width="0.8"/>
+                  </svg>
+                </div>
+                <h4 class="font-serif text-gold">Miniaturas & Criaturas Místicas</h4>
+                <p class="font-sans text-light">Impresión en resina fotosensible de definición ultra-alta (8K) para capturar el mínimo detalle de familiares, figuras mitológicas o héroes personalizados para tu mesa de campaña.</p>
+                <div class="service-tag">Resina Ultra HD</div>
+              </div>
+            </div>
+            
+            <!-- Card 5 -->
+            <div class="service-card gold-border-container">
+              <div class="gold-border-inner starry-bg card-content">
+                <div class="card-magic-circle-bg">
+                  <svg viewBox="0 0 100 100" width="130" height="130" stroke="currentColor" fill="none">
+                    <circle cx="50" cy="50" r="45" stroke-width="1"/>
+                    <polygon points="50,20 75,50 50,80 25,50" stroke-width="0.8"/>
+                    <circle cx="50" cy="50" r="6" stroke-width="0.8"/>
+                  </svg>
+                </div>
+                <h4 class="font-serif text-gold">Amuletos y Runas del Reino</h4>
+                <p class="font-sans text-light">Talismanes de bolsillo fabricados con filamentos especiales infusionados con polvos de bronce, cobre o compuestos fosforescentes que cargan luz diurna para brillar por la noche.</p>
+                <div class="service-tag">Filamentos de Metal</div>
+              </div>
+            </div>
+            
+            <!-- Card 6 -->
+            <div class="service-card gold-border-container">
+              <div class="gold-border-inner starry-bg card-content">
+                <div class="card-magic-circle-bg">
+                  <svg viewBox="0 0 100 100" width="130" height="130" stroke="currentColor" fill="none">
+                    <circle cx="50" cy="50" r="45" stroke-dasharray="8 6" stroke-width="1"/>
+                    <path d="M 50,25 C 65,35 65,65 50,75 C 35,65 35,35 50,25 Z" stroke-width="0.8"/>
+                  </svg>
+                </div>
+                <h4 class="font-serif text-gold">Engranajes & Dispositivos Alquímicos</h4>
+                <p class="font-sans text-light">Mecanismos mecánicos funcionales impresos en polímeros de grado estructural. Engranajes para astrolabios, péndulos adivinatorios o cajas de acertijos con ajuste exacto.</p>
+                <div class="service-tag">Ingeniería Fantástica</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS SECTION / VOCES DEL REINO -->
+  <section id="reseñas" class="testimonials-section parchment-bg">
+    <div class="container">
+      <div class="text-center fade-up-init" style="margin-bottom: 60px;">
+        <div class="hero-badge">Voces del Reino</div>
+        <h2 class="section-title font-serif">Reseñas de Magos e Inventores</h2>
+        <div class="hand-drawn-divider" style="margin: 15px auto 25px auto;"></div>
+        <p class="section-subtitle font-sans" style="color: var(--color-text-dark); max-width: 600px; margin: 0 auto; opacity: 0.85;">
+          Nuestros tomos y amuletos viajan a través de los mapas. Conoce el testimonio de quienes confiaron sus invocaciones a nuestro taller.
+        </p>
+      </div>
+      
+      <div class="testimonials-grid">
+        <!-- Testimonial 1 -->
+        <div class="testimonial-card tarot-card fade-up-init">
+          <div class="tarot-card-inner">
+            <div class="tarot-header">
+              <span class="tarot-num">I</span>
+              <span class="tarot-title font-serif">EL ARCHIMAGO</span>
+              <span class="tarot-num">I</span>
+            </div>
+            
+            <div class="tarot-avatar-frame">
+              <svg viewBox="0 0 100 100" class="tarot-avatar">
+                <polygon points="50,5 65,35 95,50 65,65 50,95 35,65 5,50 35,35" fill="none" stroke="rgba(223, 177, 91, 0.3)" stroke-width="1.2" />
+                <circle cx="50" cy="50" r="19" fill="none" stroke="var(--color-gold)" stroke-width="1.5" />
+                <path d="M 50,15 L 37,42 L 63,42 Z" fill="var(--color-cobalt)" stroke="var(--color-gold)" stroke-width="1" />
+                <path d="M 28,76 C 28,62 72,62 72,76 Z" fill="var(--color-cobalt)" stroke="var(--color-gold)" stroke-width="1" />
+                <circle cx="45" cy="50" r="1.5" fill="var(--color-starlight)" />
+                <circle cx="55" cy="50" r="1.5" fill="var(--color-starlight)" />
+              </svg>
+            </div>
+            
+            <div class="tarot-rating">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            
+            <p class="tarot-quote font-sans">
+              "Encargué la impresión de mi grimorio de combate. El papel resiste chispas accidentales y la encuadernación rúnica es impenetrable. ¡Mis hechizos ya no se queman a mitad de la batalla!"
+            </p>
+            
+            <div class="tarot-footer">
+              <div class="tarot-name font-serif">Ignis Stormweaver</div>
+              <div class="tarot-role font-sans">Archimago de la Llama</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Testimonial 2 -->
+        <div class="testimonial-card tarot-card fade-up-init">
+          <div class="tarot-card-inner">
+            <div class="tarot-header">
+              <span class="tarot-num">II</span>
+              <span class="tarot-title font-serif">LA INVENTORA</span>
+              <span class="tarot-num">II</span>
+            </div>
+            
+            <div class="tarot-avatar-frame">
+              <svg viewBox="0 0 100 100" class="tarot-avatar">
+                <circle cx="50" cy="50" r="30" fill="none" stroke="rgba(223, 177, 91, 0.2)" stroke-width="1" stroke-dasharray="3 3" />
+                <circle cx="50" cy="50" r="20" fill="none" stroke="var(--color-gold)" stroke-width="1.5" />
+                <circle cx="42" cy="50" r="5.5" fill="var(--color-emerald)" stroke="var(--color-gold)" stroke-width="1.2" />
+                <circle cx="58" cy="50" r="5.5" fill="var(--color-emerald)" stroke="var(--color-gold)" stroke-width="1.2" />
+                <path d="M 47,50 L 53,50" stroke="var(--color-gold)" stroke-width="2" />
+                <path d="M 28,78 C 28,64 72,64 72,78 Z" fill="var(--color-cobalt)" stroke="var(--color-gold)" stroke-width="1" />
+              </svg>
+            </div>
+            
+            <div class="tarot-rating">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            
+            <p class="tarot-quote font-sans">
+              "Los engranajes alquímicos impresos en bronce 3D encajan a la perfección en mi autómata mensajero. La resistencia mecánica es soberbia y la transferencia de energía mágica no tiene pérdidas."
+            </p>
+            
+            <div class="tarot-footer">
+              <div class="tarot-name font-serif">Evelyn Sterling</div>
+              <div class="tarot-role font-sans">Ingeniera de Autómatas</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Testimonial 3 -->
+        <div class="testimonial-card tarot-card fade-up-init">
+          <div class="tarot-card-inner">
+            <div class="tarot-header">
+              <span class="tarot-num">III</span>
+              <span class="tarot-title font-serif">EL CARTÓGRAFO</span>
+              <span class="tarot-num">III</span>
+            </div>
+            
+            <div class="tarot-avatar-frame">
+              <svg viewBox="0 0 100 100" class="tarot-avatar">
+                <path d="M 62,28 A 20,20 0 1,0 82,48 A 14,14 0 1,1 62,28 Z" fill="none" stroke="rgba(223, 177, 91, 0.35)" stroke-width="1" />
+                <circle cx="50" cy="50" r="18" fill="none" stroke="var(--color-gold)" stroke-width="1.5" />
+                <path d="M 50,21 Q 36,44 36,54 Q 50,64 64,54 Q 64,44 50,21 Z" fill="var(--color-cobalt)" stroke="var(--color-gold)" stroke-width="1" />
+                <path d="M 30,78 C 30,64 70,64 70,78 Z" fill="var(--color-cobalt)" stroke="var(--color-gold)" stroke-width="1" />
+              </svg>
+            </div>
+            
+            <div class="tarot-rating">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            
+            <p class="tarot-quote font-sans">
+              "El pergamino celeste reactivo es sublime. Sus líneas de estrellas brillan en la penumbra del barco orientándonos en mar abierto. Capturan las constelaciones con una nitidez maravillosa."
+            </p>
+            
+            <div class="tarot-footer">
+              <div class="tarot-name font-serif">Zephyr Whispering</div>
+              <div class="tarot-role font-sans">Navegante Astral</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT FORM / EL BUZÓN DE HECHIZOS -->
+  <section id="contacto" class="contact-section starry-bg">
+    <div class="container">
+      <div class="text-center fade-up-init" style="margin-bottom: 50px;">
+        <div class="hero-badge" style="background-color: rgba(223, 177, 91, 0.1); border-color: rgba(223, 177, 91, 0.25);">Comunión Directa</div>
+        <h2 class="section-title font-serif" style="color: var(--color-parchment);">El Buzón de Hechizos</h2>
+        <div class="hand-drawn-divider" style="margin: 15px auto 25px auto;"></div>
+        <p class="section-subtitle font-sans" style="color: var(--color-text-light); max-width: 600px; margin: 0 auto; opacity: 0.8;">
+          Invoca tu encargo. Escribe las especificaciones en nuestro libro y prepararemos la transmutación gráfica o tridimensional pertinente.
+        </p>
+      </div>
+      
+      <div class="spellbook-container fade-up-init" style="filter: url(#hand-drawn);">
+        <!-- Left page (instruction & candle) -->
+        <div class="spellbook-left parchment-bg">
+          <div>
+            <h3 class="font-serif text-cobalt" style="margin-bottom: 18px;">Instrucciones del Rito</h3>
+            <ul class="spellbook-rules font-sans">
+              <li><strong>Invocador:</strong> Escribe tu nombre o el sello del gremio para iniciar el proceso mágico.</li>
+              <li><strong>Contacto:</strong> Proporciona un buzón de éter (correo) activo para recibir nuestras respuestas.</li>
+              <li><strong>Arte:</strong> Elige el plano dimensional de materialización física (2D, 3D o combinado).</li>
+              <li><strong>Especificaciones:</strong> Describe las runas, texturas, formas y propósitos místicos requeridos.</li>
+            </ul>
+          </div>
+          
+          <!-- Candle Interactive element -->
+          <div class="spellbook-candle-container">
+            <div class="candle">
+              <div class="flame"></div>
+              <div class="wick"></div>
+              <div class="wax"></div>
+            </div>
+            <p class="candle-hint font-sans">Haz clic en la llama para atenuar/encender la vela de concentración.</p>
+          </div>
+          
+          <div class="runic-decorations-left">
+            <span>☄</span><span>❈</span><span>☉</span><span>☽</span>
+          </div>
+        </div>
+        
+        <!-- Right page (the form fields) -->
+        <div class="spellbook-right">
+          <form id="contactForm" autocomplete="off" novalidate>
+            <div class="form-group">
+              <input type="text" id="name" class="form-input" placeholder=" " required>
+              <label for="name" class="form-label">Nombre del Invocador</label>
+              <div class="form-error font-sans" id="nameError">El nombre del invocador es obligatorio.</div>
+            </div>
+            
+            <div class="form-group">
+              <input type="email" id="email" class="form-input" placeholder=" " required>
+              <label for="email" class="form-label">Correo del Mensajero</label>
+              <div class="form-error font-sans" id="emailError">Introduce una dirección de correo válida.</div>
+            </div>
+            
+            <div class="form-group">
+              <select id="service" class="form-select" required>
+                <option value="" disabled selected hidden></option>
+                <option value="2d">Impresión 2D (Grimorios, Pergaminos, Arte en Papel)</option>
+                <option value="3d">Impresión 3D (Amuletos, Runas, Engranajes Mágicos)</option>
+                <option value="mixed">Combinado (Tinta y Alquimia de Filamento)</option>
+              </select>
+              <label for="service" class="form-label">Tipo de Encanto / Servicio</label>
+              <div class="form-error font-sans" id="serviceError">Debes seleccionar una disciplina artesanal.</div>
+            </div>
+            
+            <div class="form-group">
+              <textarea id="message" class="form-textarea" placeholder=" " required></textarea>
+              <label for="message" class="form-label">Especificaciones del Hechizo (Tu Proyecto)</label>
+              <div class="form-error font-sans" id="messageError">Cuéntanos los detalles y medidas del encargo.</div>
+            </div>
+            
+            <div class="form-checkbox-group">
+              <input type="checkbox" id="terms" class="form-checkbox" required>
+              <label for="terms" class="form-checkbox-label font-sans">
+                Acepto los términos de transmutación y el código ético del taller de magia.
+              </label>
+            </div>
+            <div class="form-error font-sans" id="termsError" style="margin-top: -22px; margin-bottom: 22px;">Es mandatorio aceptar el código ético para continuar.</div>
+            
+            <button type="submit" class="btn btn-magic-large" style="width: 100%;">
+              Conjurar Pedido
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 10px;">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer starry-bg">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <a href="#inicio" class="logo-wrap" style="color: var(--color-gold); margin-bottom: 18px;">
+          <svg viewBox="0 0 100 100" width="38" height="38" fill="none" stroke="currentColor">
+            <circle cx="50" cy="50" r="45" stroke-width="2" />
+            <circle cx="50" cy="50" r="38" stroke-dasharray="3 2" stroke-width="1.5" />
+            <path d="M 35,65 L 60,40" stroke-width="3" stroke-linecap="round" />
+            <path d="M 62,38 L 65,25 L 57,33 Z" fill="currentColor" />
+            <path d="M 65,65 L 40,40" stroke-width="3" stroke-linecap="round" />
+            <path d="M 33,37 L 25,35 L 28,42 Z" fill="currentColor" />
+            <path d="M 50,42 L 52,48 L 58,50 L 52,52 L 50,58 L 48,52 L 42,50 L 48,48 Z" fill="currentColor" />
+          </svg>
+          <span class="logo-title font-serif" style="color: var(--color-parchment); font-size: 20px;">TINTA & ALQUIMIA</span>
+        </a>
+        <p class="footer-desc font-sans text-light opacity-8">
+          Donde la sabiduría del papel antiguo se materializa a través de filamentos estelares. Imprenta mágica artesanal y manufactura mística en tres dimensiones.
+        </p>
+        <div class="footer-socials">
+          <a href="#" class="social-link" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </a>
+          <a href="#" class="social-link" aria-label="Twitter">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+          </a>
+          <a href="#" class="social-link" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+          </a>
+          <a href="#" class="social-link" aria-label="Discord">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a3 3 0 0 0-3-3H5a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8z"></path><path d="M10 12h.01M14 12h.01M6 8a4 4 0 0 1 8 0v4H6V8z"></path></svg>
+          </a>
+        </div>
+      </div>
+      
+      <div class="footer-hours">
+        <h4 class="font-serif text-gold">Horarios del Atelier</h4>
+        <ul class="hours-list font-sans text-light opacity-8">
+          <li><strong>Lunes a Viernes:</strong> Desde el amanecer hasta el crepúsculo.</li>
+          <li><strong>Sábados:</strong> Bajo alineación astral (cita previa).</li>
+          <li><strong>Domingos:</strong> Descanso por recarga de maná y cuna fría.</li>
+        </ul>
+      </div>
+      
+      <div class="footer-links">
+        <h4 class="font-serif text-gold">Coordenadas</h4>
+        <p class="font-sans text-light opacity-8" style="margin-bottom: 18px;">
+          Callejón de la Pluma Dorada Nº 7,<br>Distrito de la Gran Alquimia,<br>Ciudad del Domo Celeste
+        </p>
+        <ul class="footer-links-list font-sans">
+          <li><a href="#" class="footer-link">Código de Ética Mágica</a></li>
+          <li><a href="#" class="footer-link">Leyes de Transmutación Rúnica</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom font-sans">
+      <p>&copy; 2026 Tinta & Alquimia. Todos los derechos reservados. Diseñado bajo el influjo estelar del Atelier.</p>
+    </div>
+  </footer>
+
+  <!-- CONJURING LOADING OVERLAY -->
+  <div class="conjuring-overlay" id="conjuringOverlay">
+    <div class="conjuring-content">
+      <div class="conjuring-circle-container">
+        <svg class="loading-magic-circle" viewBox="0 0 200 200" width="160" height="160">
+          <circle cx="100" cy="100" r="90" fill="none" stroke="var(--color-gold)" stroke-width="1.5" stroke-dasharray="12 6 4 4" />
+          <circle cx="100" cy="100" r="75" fill="none" stroke="var(--color-gold)" stroke-width="1" />
+          <path d="M 100,25 L 165,135 L 35,135 Z" fill="none" stroke="var(--color-starlight)" stroke-width="1" opacity="0.6" />
+          <path d="M 100,175 L 165,65 L 35,65 Z" fill="none" stroke="var(--color-starlight)" stroke-width="1" opacity="0.6" />
+          <circle cx="100" cy="100" r="50" fill="none" stroke="var(--color-gold)" stroke-width="2" stroke-dasharray="3 5" />
+          <circle cx="100" cy="100" r="25" fill="none" stroke="var(--color-amber)" stroke-width="3" stroke-linecap="round" stroke-dasharray="30 15" class="spinner-center" />
+        </svg>
+      </div>
+      <h3 class="font-serif">Canalizando Éter...</h3>
+      <p>Sellando tu petición en las corrientes celestes.</p>
+    </div>
+  </div>
+
+  <!-- SUCCESS MODAL OVERLAY -->
+  <div class="success-modal-overlay" id="successModal">
+    <div class="success-modal gold-border-container" style="filter: url(#hand-drawn);">
+      <div class="gold-border-inner parchment-bg text-center" style="padding: 40px 30px;">
+        <div class="success-seal">
+          <svg viewBox="0 0 100 100" width="80" height="80">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="var(--color-emerald)" stroke-width="2" />
+            <path d="M 32,50 L 45,63 L 68,36" fill="none" stroke="var(--color-emerald)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="28" cy="30" r="2.5" fill="var(--color-gold)" />
+            <circle cx="72" cy="26" r="3" fill="var(--color-gold)" />
+            <circle cx="78" cy="68" r="2" fill="var(--color-gold)" />
+            <circle cx="22" cy="68" r="2.5" fill="var(--color-gold)" />
+          </svg>
+        </div>
+        <h3 class="font-serif text-cobalt" style="font-size: 24px; margin-bottom: 15px;">¡Hechizo de Contacto Enviado con Éxito!</h3>
+        <p class="text-dark font-sans" style="font-size: 15px; line-height: 1.6; margin-bottom: 25px;">
+          Nuestros mensajeros alados responderán pronto. El lacre alquímico ha cerrado tu mensaje y las corrientes ya conducen a nuestros búhos veloces.
+        </p>
+        <button class="btn btn-magic-large" id="closeSuccessBtn" style="width: 80%;">Cerrar Portal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // HEADER SCROLL EVENT
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // MOBILE MENU NAVIGATION
+    const mobileToggle = document.querySelector('.mobile-toggle');
+    const mobileClose = document.querySelector('.mobile-menu-close');
+    const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+    const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+
+    mobileToggle.addEventListener('click', () => {
+      mobileMenuOverlay.classList.add('active');
+    });
+
+    mobileClose.addEventListener('click', () => {
+      mobileMenuOverlay.classList.remove('active');
+    });
+
+    mobileMenuLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenuOverlay.classList.remove('active');
+      });
+    });
+
+    // INTERACTIVE PILLARS (ABOUT US)
+    const pilarButtons = document.querySelectorAll('.pilar-btn');
+    const pilarDetails = document.querySelectorAll('.pilar-detail');
+
+    pilarButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        pilarButtons.forEach(btn => btn.classList.remove('active'));
+        pilarDetails.forEach(detail => detail.classList.remove('active'));
+        
+        button.classList.add('active');
+        const targetId = `detail-${button.getAttribute('data-pilar')}`;
+        document.getElementById(targetId).classList.add('active');
+      });
+    });
+
+    // INTERACTIVE CANDLE (FORM)
+    const candle = document.querySelector('.candle');
+    const leftPage = document.querySelector('.spellbook-left');
+    
+    if (candle) {
+      candle.addEventListener('click', () => {
+        candle.classList.toggle('extinguished');
+        if (candle.classList.contains('extinguished')) {
+          leftPage.style.filter = 'brightness(0.85) sepia(0.2)';
+        } else {
+          leftPage.style.filter = 'none';
+        }
+      });
+    }
+
+    // FORM VALIDATION & SUBMISSION
+    const contactForm = document.getElementById('contactForm');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const serviceSelect = document.getElementById('service');
+    const messageTextarea = document.getElementById('message');
+    const termsCheckbox = document.getElementById('terms');
+    const termsError = document.getElementById('termsError');
+
+    const conjuringOverlay = document.getElementById('conjuringOverlay');
+    const successModal = document.getElementById('successModal');
+    const closeSuccessBtn = document.getElementById('closeSuccessBtn');
+
+    // Helper to clear error state on user input
+    const clearError = (inputEl) => {
+      inputEl.closest('.form-group').classList.remove('invalid');
+    };
+
+    nameInput.addEventListener('input', () => clearError(nameInput));
+    emailInput.addEventListener('input', () => clearError(emailInput));
+    messageTextarea.addEventListener('input', () => clearError(messageTextarea));
+    serviceSelect.addEventListener('change', () => clearError(serviceSelect));
+    termsCheckbox.addEventListener('change', () => {
+      if (termsCheckbox.checked) {
+        termsError.style.display = 'none';
+      }
+    });
+
+    // Form Validator
+    function validateForm() {
+      let isValid = true;
+
+      // Validate Name
+      if (!nameInput.value.trim()) {
+        nameInput.closest('.form-group').classList.add('invalid');
+        isValid = false;
+      }
+
+      // Validate Email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailInput.value.trim() || !emailRegex.test(emailInput.value)) {
+        emailInput.closest('.form-group').classList.add('invalid');
+        isValid = false;
+      }
+
+      // Validate Service
+      if (!serviceSelect.value) {
+        serviceSelect.closest('.form-group').classList.add('invalid');
+        isValid = false;
+      }
+
+      // Validate Message
+      if (!messageTextarea.value.trim()) {
+        messageTextarea.closest('.form-group').classList.add('invalid');
+        isValid = false;
+      }
+
+      // Validate Terms
+      if (!termsCheckbox.checked) {
+        termsError.style.display = 'block';
+        isValid = false;
+      }
+
+      return isValid;
+    }
+
+    if (contactForm) {
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        if (!validateForm()) {
+          return;
+        }
+
+        // Lock form inputs
+        const formControls = contactForm.querySelectorAll('input, select, textarea, button');
+        formControls.forEach(ctrl => ctrl.disabled = true);
+
+        // Open Conjuring overlay
+        conjuringOverlay.classList.add('active');
+
+        // Materialize spell simulation
+        setTimeout(() => {
+          conjuringOverlay.classList.remove('active');
+          successModal.classList.add('active');
+        }, 2600);
+      });
+    }
+
+    if (closeSuccessBtn) {
+      closeSuccessBtn.addEventListener('click', () => {
+        successModal.classList.remove('active');
+        
+        // Reset form controls
+        const formControls = contactForm.querySelectorAll('input, select, textarea, button');
+        formControls.forEach(ctrl => ctrl.disabled = false);
+        contactForm.reset();
+        
+        // Clear select styling
+        serviceSelect.closest('.form-group').classList.remove('invalid');
+      });
+    }
+
+    // SCROLL ANIMATIONS INTERSECTION OBSERVER
+    const animElements = document.querySelectorAll('.fade-up-init');
+    const animObserverOptions = {
+      root: null,
+      threshold: 0.12,
+      rootMargin: '0px'
+    };
+
+    const animObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target); // Trigger once
+        }
+      });
+    }, animObserverOptions);
+
+    animElements.forEach(el => animObserver.observe(el));
+
+    // CLICK SPARKLES EFFECT
+    document.addEventListener('click', (e) => {
+      // Exclude clicking on interactive triggers to prevent clutter
+      if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input') || e.target.closest('textarea') || e.target.closest('select')) {
+        return;
+      }
+      triggerSparks(e.clientX, e.clientY);
+    });
+
+    function triggerSparks(x, y) {
+      const parent = document.body;
+      const count = 9;
+      const sparkSymbols = ['✦', '★', '✧', '•'];
+      const colors = ['#dfb15b', '#fef08a', '#f59e0b', '#dfb15b'];
+
+      for (let i = 0; i < count; i++) {
+        const span = document.createElement('div');
+        span.className = 'click-sparkle';
+        span.textContent = sparkSymbols[Math.floor(Math.random() * sparkSymbols.length)];
+        span.style.left = `${x}px`;
+        span.style.top = `${y}px`;
+        span.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+        // Compute angle and offset for explosion physics
+        const angle = Math.random() * Math.PI * 2;
+        const force = 15 + Math.random() * 55;
+        const tx = Math.cos(angle) * force;
+        const ty = Math.sin(angle) * force;
+
+        span.style.setProperty('--tx', `${tx}px`);
+        span.style.setProperty('--ty', `${ty}px`);
+
+        parent.appendChild(span);
+
+        span.addEventListener('animationend', () => {
+          span.remove();
+        });
+      }
+    }
+  </script>
+</body>
+</html>

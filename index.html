@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PFO2: Prompt Engineering en Agentes de IA - Portada</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050a18;
+            --text-light: #f3f4f6;
+            --text-muted: #9ca3af;
+            --gold: #dfb15b;
+            --gold-glow: rgba(223, 177, 91, 0.3);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent-blue: #0ea5e9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background Magical Elements */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 50%;
+            height: 50%;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.1) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            bottom: -10%;
+            right: -10%;
+            width: 50%;
+            height: 50%;
+            background: radial-gradient(circle, rgba(223, 177, 91, 0.08) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Sparkle Animation helper */
+        .sparkles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Header / Hero */
+        header {
+            text-align: center;
+            padding: 4rem 2rem 2rem;
+            position: relative;
+        }
+
+        .magic-circle-bg {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            animation: spin 30s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--gold);
+            text-shadow: 0 0 15px var(--gold-glow);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        /* Student Card */
+        .student-info {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-width: 500px;
+            margin: 0 auto 3rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            text-align: left;
+            position: relative;
+        }
+
+        .student-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--accent-blue));
+            border-radius: 12px 12px 0 0;
+        }
+
+        .student-info h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.5rem;
+        }
+
+        .student-info p {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .student-info p span {
+            color: var(--text-muted);
+            margin-right: 0.5rem;
+            font-weight: 300;
+        }
+
+        /* Main Portal Links Grid */
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+            width: 100%;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .portal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .portal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(223, 177, 91, 0.05), transparent 70%);
+            pointer-events: none;
+            transition: opacity 0.4s;
+            opacity: 0.5;
+        }
+
+        .portal-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(223, 177, 91, 0.3);
+            box-shadow: 0 12px 40px rgba(223, 177, 91, 0.1);
+        }
+
+        .portal-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+            filter: drop-shadow(0 0 8px var(--gold-glow));
+        }
+
+        .portal-card h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .portal-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .portal-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(223, 177, 91, 0.1) 0%, rgba(223, 177, 91, 0.2) 100%);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .portal-card:hover .portal-btn {
+            background: var(--gold);
+            color: var(--bg-color);
+            box-shadow: 0 0 15px rgba(223, 177, 91, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
+        footer span {
+            color: var(--gold);
+        }
+
+        /* SVG Magic Circle Stylings */
+        .magic-circle-svg {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+        }
+
+        .magic-circle-inner {
+            stroke-dasharray: 4, 4;
+            animation: spin-reverse 20s linear infinite;
+            transform-origin: center;
+        }
+
+        @keyframes spin-reverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="magic-circle-bg">
+            <svg class="magic-circle-svg" viewBox="0 0 100 100" width="100%" height="100%">
+                <!-- Outer ring -->
+                <circle cx="50" cy="50" r="45" />
+                <!-- Inner ring dashed -->
+                <circle class="magic-circle-inner" cx="50" cy="50" r="38" />
+                <!-- Center details -->
+                <polygon points="50,18 78,66 22,66" />
+                <polygon points="50,82 78,34 22,34" />
+                <circle cx="50" cy="50" r="10" />
+            </svg>
+        </div>
+        <h1>TINTA & ALQUIMIA</h1>
+        <p class="subtitle">Práctica Formativa Obligatoria 2 - Comparativa de Prompt Engineering en Agentes de IA</p>
+        
+        <!-- Tarjeta de Datos del Estudiante -->
+        <div class="student-info">
+            <h3>Datos del Estudiante</h3>
+            <p><span>Estudiante:</span> Adriana Coronel</p>
+            <p><span>Asignatura:</span> Desarrollo Web / Agentes de IA</p>
+            <p><span>Proyecto:</span> Imprenta Mágica 2D/3D — Tinta & Alquimia</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="links-grid">
+            
+            <!-- Link 1: El Prompt -->
+            <div class="portal-card">
+                <div>
+                    <div class="card-icon">📜</div>
+                    <h2>El Prompt Maestro</h2>
+                    <p>Accede al texto plano del prompt de alta precisión estructurado bajo las guías oficiales de OpenAI y Anthropic.</p>
+                </div>
+                <a href="prompt.txt" target="_blank" class="portal-btn">Ver Prompt</a>
+            </div>
+
+            <!-- Link 2: Agente 1 -->
+            <div class="portal-card">
+                <div>
+                    <div class="card-icon">🔮</div>
+                    <h2>Primer Agente</h2>
+                    <p>Landing page generada de manera 100% autónoma por el Agente 1.<br><strong>Agente:</strong> Antigravity<br><strong>Modelo:</strong> Gemini 3.5 Flash</p>
+                </div>
+                <a href="agent1/index.html" class="portal-btn">Explorar Landing 1</a>
+            </div>
+            
+            <div class="portal-card">
+                <div>
+                    <div class="card-icon">✨</div>
+                    <h2>Segundo Agente</h2>
+                    <p>Landing page generada de manera 100% autónoma por el Agente 2.<br><strong>Agente:</strong> Codex CLI<br><strong>Modelo:</strong> GPT-5.5</p>
+                </div>
+                <a href="agent2/index.html" class="portal-btn">Explorar Landing 2</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>Realizado para la materia de <span>Prompt Engineering & Agentes de IA</span>. 2026.</p>
+    </footer>
+
+</body>
+</html>
