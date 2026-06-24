@@ -171,9 +171,25 @@ FE-PFO2-Agentes/
 
 > ![Landing generada por Antigravity](./screenshots/agente-1-desktop.png)
 
+> ![Nosotros generada por Antigravity](./screenshots/agente-1-nosotros.png)
+
+> ![Servicios generada por Antigravity](./screenshots/agente-1-servicio.png)
+
+> ![Reseñas generadas por Antigravity](./screenshots/agente-1-reseñas.png)
+
+> ![Contacto generada por Antigravity](./screenshots/agente-1-contacto.png)
+
 ### Agente 2 — Codex (GPT-5.5-Codex)
 
 > ![Landing generada por Codex](./screenshots/agente-2-desktop.png)
+
+> ![Nosotros generada por Codex](./screenshots/agente-2-nosotros.png)
+
+> ![Servicios generada por Codex](./screenshots/agente-2-servicio.png)
+
+> ![Reseñas generadas por Codex](./screenshots/agente-2-reseñas.png)
+
+> ![Contacto generada por Codex](./screenshots/agente-2-contacto.png)
 
 ---
 
