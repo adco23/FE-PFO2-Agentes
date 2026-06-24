@@ -7,7 +7,7 @@
 ## Datos del estudiante
 
 - **Nombre y Apellido:** Adriana Coronel
-- **Comisión:** D (lunes)
+- **Comisión:** 2° D (lunes)
 - **Cátedra:** Desarrollo Frontend
 - **Institución:** IFTS N.º 29 — Tecnicatura Superior en Desarrollo de Software
 
@@ -15,7 +15,7 @@
 
 ## Link al proyecto
 
-🔗 **Portada (Vercel):** `https://___tu-proyecto___.vercel.app/`
+🔗 **Portada (Vercel):** [`https://fe-pfo-2-agentes.vercel.app/`](https://fe-pfo-2-agentes.vercel.app/)
 
 > La portada del proyecto contiene el prompt en texto plano y accesos directos a las landings generadas por los agentes.
 
