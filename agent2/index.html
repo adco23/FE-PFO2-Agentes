@@ -1,2336 +1,1352 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tinta & Alquimia | Imprenta Mágica & Manufactura 3D</title>
-  <!-- Google Fonts Import -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <style>
-    /* VARIABLES & THEME DEFINITIONS */
-    :root {
-      --color-parchment: #fcfbf7;
-      --color-parchment-dark: #f5f2eb;
-      --color-starry: #0a1128;
-      --color-starry-light: #131c38;
-      --color-cobalt: #1c3d5a;
-      --color-emerald: #14532d;
-      --color-gold: #dfb15b;
-      --color-amber: #f59e0b;
-      --color-starlight: #fef08a;
-      --color-text-dark: #2c3540;
-      --color-text-light: #e2e8f0;
-      --font-serif: 'Cinzel', serif;
-      --font-sans: 'Plus Jakarta Sans', sans-serif;
-    }
-
-    /* GLOBAL RESET & SCROLLBAR */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: var(--font-sans);
-      background-color: var(--color-parchment);
-      color: var(--color-text-dark);
-      overflow-x: hidden;
-    }
-
-    /* Custom Scrollbar styled for the theme */
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--color-parchment);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--color-cobalt);
-      border: 2px solid var(--color-parchment);
-      border-radius: 5px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--color-gold);
-    }
-
-    /* TYPOGRAPHY HELPERS */
-    .font-serif { font-family: var(--font-serif); }
-    .font-sans { font-family: var(--font-sans); }
-    .text-cobalt { color: var(--color-cobalt); }
-    .text-gold { color: var(--color-gold); }
-    .text-light { color: var(--color-text-light); }
-    .text-dark { color: var(--color-text-dark); }
-    .text-center { text-align: center; }
-    .opacity-8 { opacity: 0.8; }
-    
-    /* LAYOUT CONTAINERS */
-    .container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* SECTION BACKGROUNDS WITH CUSTOM SVG PATTERNS */
-    .parchment-bg {
-      background-color: var(--color-parchment);
-      background-image: 
-        radial-gradient(circle at 50% 50%, rgba(245, 242, 235, 0.5) 0%, rgba(230, 225, 215, 0.3) 100%),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.15' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.7'/%3E%3C/svg%3E");
-    }
-
-    .starry-bg {
-      background-color: var(--color-starry);
-      background-image: 
-        radial-gradient(circle at 30% 20%, rgba(28, 61, 90, 0.4) 0%, transparent 50%),
-        radial-gradient(circle at 85% 70%, rgba(20, 83, 45, 0.2) 0%, transparent 50%),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.2' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.02 0'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23noise)'/%3E%3Cg fill='%23fef08a' opacity='0.4'%3E%3Ccircle cx='10' cy='20' r='0.75'/%3E%3Ccircle cx='80' cy='45' r='1'/%3E%3Ccircle cx='130' cy='15' r='0.5'/%3E%3Ccircle cx='40' cy='110' r='0.75'/%3E%3Ccircle cx='110' cy='120' r='1.25'/%3E%3Ccircle cx='140' cy='90' r='0.5'/%3E%3C/g%3E%3C/svg%3E");
-    }
-
-    /* GOLD BORDER CONTAINER ( respecting border-radius ) */
-    .gold-border-container {
-      position: relative;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--color-gold), var(--color-amber), var(--color-starlight), var(--color-gold));
-      background-size: 200% 200%;
-      animation: goldGlowShimmer 8s linear infinite;
-      padding: 2.5px;
-      box-shadow: 0 8px 24px rgba(10, 17, 40, 0.1);
-    }
-    
-    @keyframes goldGlowShimmer {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .gold-border-inner {
-      border-radius: 10px;
-      height: 100%;
-      width: 100%;
-    }
-
-    /* MAGICAL BUTTON SHAPES */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-serif);
-      font-weight: 700;
-      text-decoration: none;
-      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; /* Organic hand-drawn look */
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      cursor: pointer;
-      outline: none;
-    }
-
-    .btn-magic-large {
-      padding: 15px 32px;
-      font-size: 16px;
-      background-color: var(--color-gold);
-      color: var(--color-starry);
-      border: 2px solid var(--color-cobalt);
-      box-shadow: 4px 4px 0px var(--color-cobalt);
-    }
-
-    .btn-magic-large:hover {
-      background-color: var(--color-starlight);
-      transform: translate(-3px, -3px);
-      box-shadow: 7px 7px 0px var(--color-cobalt), 0 0 20px rgba(223, 177, 91, 0.5);
-    }
-
-    .btn-magic-large:active {
-      transform: translate(3px, 3px);
-      box-shadow: 1px 1px 0px var(--color-cobalt);
-    }
-
-    .btn-magic-secondary {
-      padding: 15px 32px;
-      font-size: 16px;
-      background-color: transparent;
-      color: var(--color-cobalt);
-      border: 2px dashed var(--color-cobalt);
-    }
-
-    .btn-magic-secondary:hover {
-      background-color: var(--color-parchment-dark);
-      color: var(--color-gold);
-      border-style: solid;
-      border-color: var(--color-gold);
-      transform: translateY(-2px);
-    }
-
-    .btn-magic-small {
-      padding: 8px 20px;
-      font-size: 13px;
-      background-color: var(--color-gold);
-      color: var(--color-starry);
-      border: 1.5px solid var(--color-cobalt);
-      box-shadow: 2px 2px 0px var(--color-cobalt);
-    }
-
-    .btn-magic-small:hover {
-      background-color: var(--color-starlight);
-      transform: translate(-2px, -2px);
-      box-shadow: 4px 4px 0px var(--color-cobalt), 0 0 10px rgba(223, 177, 91, 0.4);
-    }
-
-    /* HEADER */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 1000;
-      background-color: rgba(252, 251, 247, 0.85);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-bottom: 1.5px solid rgba(28, 61, 90, 0.1);
-      transition: all 0.4s ease;
-    }
-
-    header.scrolled {
-      padding: 8px 0;
-      background-color: rgba(252, 251, 247, 0.96);
-      box-shadow: 0 4px 30px rgba(10, 17, 40, 0.08);
-    }
-
-    .nav-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 15px 20px;
-      transition: padding 0.4s ease;
-    }
-
-    header.scrolled .nav-container {
-      padding: 10px 20px;
-    }
-
-    .logo-wrap {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--color-cobalt);
-    }
-
-    .logo-svg {
-      transition: transform 0.6s ease;
-    }
-
-    .logo-wrap:hover .logo-svg {
-      transform: rotate(45deg);
-    }
-
-    .logo-text {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .logo-title {
-      font-weight: 900;
-      font-size: 18px;
-      letter-spacing: 1px;
-      line-height: 1.15;
-    }
-
-    .logo-sub {
-      font-family: var(--font-sans);
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: var(--color-amber);
-      text-transform: uppercase;
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 30px;
-    }
-
-    .nav-link {
-      font-family: var(--font-sans);
-      font-size: 15px;
-      font-weight: 600;
-      text-decoration: none;
-      color: var(--color-cobalt);
-      position: relative;
-      padding: 6px 0;
-      transition: color 0.3s ease;
-    }
-
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background-color: var(--color-gold);
-      transition: width 0.3s ease;
-    }
-
-    .nav-link:hover {
-      color: var(--color-gold);
-    }
-
-    .nav-link:hover::after {
-      width: 100%;
-    }
-
-    .mobile-toggle {
-      display: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--color-cobalt);
-      padding: 4px;
-    }
-
-    /* HERO SECTION */
-    .hero-section {
-      padding-top: 160px;
-      padding-bottom: 90px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-container {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      align-items: center;
-      gap: 50px;
-    }
-
-    .hero-badge {
-      display: inline-block;
-      font-family: var(--font-sans);
-      font-weight: 700;
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--color-amber);
-      background-color: rgba(245, 158, 11, 0.08);
-      padding: 6px 18px;
-      border-radius: 30px;
-      margin-bottom: 22px;
-      border: 1px solid rgba(245, 158, 11, 0.2);
-    }
-
-    .hero-title {
-      font-size: 50px;
-      line-height: 1.15;
-      color: var(--color-cobalt);
-      margin-bottom: 24px;
-      font-weight: 900;
-      letter-spacing: -0.5px;
-    }
-
-    .hero-subtitle {
-      font-size: 18px;
-      line-height: 1.7;
-      color: var(--color-text-dark);
-      margin-bottom: 35px;
-      max-width: 600px;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 20px;
-    }
-
-    /* HERO 3D PORTAL VISUAL */
-    .hero-visual-wrapper {
-      position: relative;
-      width: 100%;
-      height: 440px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .hero-visual {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      perspective: 1000px;
-    }
-
-    .portal-backdrop {
-      position: absolute;
-      width: 320px;
-      height: 320px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(19, 28, 56, 0.8) 20%, rgba(10, 17, 40, 0.95) 70%, transparent 100%);
-      border: 1.5px dashed var(--color-gold);
-      opacity: 0.85;
-      animation: pulsePortal 6s ease-in-out infinite alternate;
-      z-index: 1;
-      box-shadow: 0 0 35px rgba(223, 177, 91, 0.25);
-    }
-
-    @keyframes pulsePortal {
-      from { transform: scale(0.95) rotate(0deg); opacity: 0.75; }
-      to { transform: scale(1.05) rotate(20deg); opacity: 0.95; }
-    }
-
-    .magic-platform {
-      position: absolute;
-      width: 290px;
-      height: 290px;
-      transform: rotateX(65deg) rotateZ(0deg);
-      transform-style: preserve-3d;
-      animation: spinPlatform 24s linear infinite;
-      z-index: 2;
-      color: var(--color-gold);
-    }
-
-    @keyframes spinPlatform {
-      from { transform: rotateX(65deg) rotateZ(0deg); }
-      to { transform: rotateX(65deg) rotateZ(360deg); }
-    }
-
-    .magic-circle-svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-      filter: drop-shadow(0 0 8px rgba(223, 177, 91, 0.5));
-    }
-
-    .floating-object {
-      position: absolute;
-      width: 120px;
-      height: 200px;
-      z-index: 3;
-      top: 15%;
-      animation: floatObject 5s ease-in-out infinite;
-      filter: drop-shadow(0 0 15px rgba(223, 177, 91, 0.45));
-      transform-style: preserve-3d;
-      pointer-events: none;
-      transition: filter 0.5s ease;
-    }
-
-    @keyframes floatObject {
-      0% { transform: translateY(0px) rotateY(0deg) scale(1); }
-      50% { transform: translateY(-16px) rotateY(180deg) scale(1.04); }
-      100% { transform: translateY(0px) rotateY(360deg) scale(1); }
-    }
-
-    .light-beam {
-      position: absolute;
-      width: 50px;
-      height: 240px;
-      background: linear-gradient(to top, rgba(254, 240, 138, 0.35), transparent);
-      bottom: 50%;
-      left: calc(50% - 25px);
-      z-index: 2;
-      filter: blur(8px);
-      opacity: 0.4;
-      pointer-events: none;
-      transform-origin: bottom center;
-      transform: rotateX(65deg) translateZ(3px);
-      animation: pulseBeam 4s ease-in-out infinite alternate;
-    }
-
-    @keyframes pulseBeam {
-      from { opacity: 0.25; height: 190px; }
-      to { opacity: 0.65; height: 260px; }
-    }
-
-    .ring-spark {
-      position: absolute;
-      font-size: 15px;
-      color: var(--color-gold);
-      opacity: 0;
-      pointer-events: none;
-      z-index: 5;
-      animation: floatSpark 4s infinite linear;
-    }
-    
-    .ring-spark.sp-1 { left: 45%; animation-delay: 0s; --x-offset: -35px; }
-    .ring-spark.sp-2 { left: 55%; animation-delay: 1.2s; --x-offset: 45px; }
-    .ring-spark.sp-3 { left: 38%; animation-delay: 2.4s; --x-offset: -55px; }
-    .ring-spark.sp-4 { left: 62%; animation-delay: 3.6s; --x-offset: 35px; }
-
-    @keyframes floatSpark {
-      0% { transform: translateY(90px) translateX(0) scale(0); opacity: 0; }
-      25% { opacity: 1; }
-      80% { opacity: 0.8; }
-      100% { transform: translateY(-90px) translateX(var(--x-offset)) scale(1.3) rotate(360deg); opacity: 0; }
-    }
-
-    /* INTERACTION HOVER EFFECT FOR HERO VISUAL */
-    .hero-visual-wrapper:hover .magic-platform {
-      animation-duration: 7s;
-      color: var(--color-starlight);
-    }
-    .hero-visual-wrapper:hover .floating-object {
-      animation: floatObjectHover 2.5s ease-in-out infinite;
-      filter: drop-shadow(0 0 25px rgba(245, 158, 11, 0.8));
-    }
-    .hero-visual-wrapper:hover .light-beam {
-      opacity: 0.75;
-      background: linear-gradient(to top, rgba(254, 240, 138, 0.6), transparent);
-    }
-
-    @keyframes floatObjectHover {
-      0% { transform: translateY(-15px) rotateY(0deg) scale(1.08); }
-      50% { transform: translateY(-35px) rotateY(180deg) scale(1.14); }
-      100% { transform: translateY(-15px) rotateY(360deg) scale(1.08); }
-    }
-
-    /* ABOUT US SECTION */
-    .about-section {
-      padding: 100px 0;
-      border-top: 1.5px solid rgba(28, 61, 90, 0.08);
-      border-bottom: 1.5px solid rgba(28, 61, 90, 0.08);
-      position: relative;
-    }
-
-    .about-layout {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 60px;
-      align-items: center;
-    }
-
-    .section-title {
-      font-size: 38px;
-      color: var(--color-cobalt);
-      margin-bottom: 15px;
-      font-weight: 700;
-      position: relative;
-    }
-
-    .hand-drawn-divider {
-      width: 140px;
-      height: 4px;
-      background: linear-gradient(90deg, var(--color-gold), var(--color-amber));
-      margin-bottom: 30px;
-      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-    }
-
-    .about-paragraph {
-      font-size: 16px;
-      line-height: 1.75;
-      color: var(--color-text-dark);
-      margin-bottom: 22px;
-    }
-
-    .drop-cap {
-      font-size: 68px;
-      float: left;
-      line-height: 52px;
-      padding-right: 14px;
-      padding-top: 6px;
-      color: var(--color-cobalt);
-      font-weight: 900;
-      text-shadow: 2px 2px 0px var(--color-gold);
-    }
-
-    /* INTERACTIVE FRAME */
-    .atelier-interactive-frame {
-      width: 100%;
-    }
-
-    .atelier-interactive-frame .gold-border-inner {
-      padding: 30px;
-    }
-
-    .pilar-buttons {
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1.5px solid var(--color-cobalt);
-      padding-bottom: 12px;
-      margin-bottom: 20px;
-      gap: 8px;
-    }
-
-    .pilar-btn {
-      background: none;
-      border: none;
-      font-family: var(--font-serif);
-      font-size: 14px;
-      color: var(--color-cobalt);
-      opacity: 0.65;
-      cursor: pointer;
-      padding: 8px 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.3s ease;
-      border-radius: 6px;
-    }
-
-    .pilar-btn:hover {
-      opacity: 1;
-      color: var(--color-amber);
-    }
-
-    .pilar-btn.active {
-      opacity: 1;
-      color: var(--color-gold);
-      background-color: var(--color-cobalt);
-      border-bottom: 2px solid var(--color-gold);
-    }
-
-    .pilar-btn svg {
-      stroke: currentColor;
-      transition: transform 0.3s ease;
-    }
-
-    .pilar-btn.active svg {
-      stroke: var(--color-gold);
-    }
-
-    .pilar-content {
-      position: relative;
-      min-height: 200px;
-    }
-
-    .pilar-detail {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease, transform 0.4s ease;
-      transform: translateY(15px);
-    }
-
-    .pilar-detail.active {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
-
-    .pilar-detail h4 {
-      color: var(--color-cobalt);
-      margin-bottom: 10px;
-      font-size: 19px;
-    }
-
-    .pilar-detail p {
-      font-size: 14px;
-      line-height: 1.65;
-      color: var(--color-text-dark);
-    }
-
-    .pilar-status {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--color-emerald);
-      margin-top: 15px;
-      border-top: 1px dashed rgba(28, 61, 90, 0.25);
-      padding-top: 10px;
-    }
-
-    /* SERVICES SECTION */
-    .services-section {
-      padding: 100px 0;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 50px;
-    }
-
-    .discipline-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 35px;
-      color: var(--color-gold);
-      border-bottom: 1.5px dashed rgba(223, 177, 91, 0.3);
-      padding-bottom: 18px;
-    }
-
-    .discipline-header h3 {
-      font-size: 26px;
-    }
-
-    .discipline-icon {
-      background-color: rgba(223, 177, 91, 0.08);
-      padding: 12px;
-      border-radius: 50%;
-      border: 1px solid var(--color-gold);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .cards-list {
-      display: flex;
-      flex-direction: column;
-      gap: 28px;
-    }
-
-    .service-card {
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .service-card .card-content {
-      padding: 26px;
-      position: relative;
-      overflow: hidden;
-      border-radius: 10px;
-      height: 100%;
-    }
-
-    .card-magic-circle-bg {
-      position: absolute;
-      right: -35px;
-      bottom: -35px;
-      color: var(--color-gold);
-      opacity: 0.06;
-      transition: opacity 0.4s ease, transform 15s linear;
-      pointer-events: none;
-    }
-
-    .service-card:hover {
-      transform: translateY(-6px);
-    }
-
-    .service-card:hover .card-magic-circle-bg {
-      opacity: 0.18;
-      transform: rotate(360deg);
-    }
-
-    .service-card h4 {
-      font-size: 21px;
-      margin-bottom: 12px;
-    }
-
-    .service-card p {
-      font-size: 14.5px;
-      line-height: 1.65;
-      opacity: 0.85;
-      margin-bottom: 18px;
-    }
-
-    .service-tag {
-      display: inline-block;
-      font-family: var(--font-sans);
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--color-starlight);
-      border: 1px solid var(--color-starlight);
-      padding: 3px 10px;
-      border-radius: 4px;
-      background-color: rgba(254, 240, 138, 0.06);
-    }
-
-    /* TESTIMONIALS ( TAROT STYLE ) */
-    .testimonials-section {
-      padding: 100px 0;
-      position: relative;
-    }
-
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
-    }
-
-    .tarot-card {
-      background-color: var(--color-starry);
-      color: var(--color-parchment);
-      border-radius: 12px;
-      padding: 3px;
-      box-shadow: 0 10px 30px rgba(10, 17, 40, 0.15);
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
-    }
-
-    .tarot-card:hover {
-      transform: translateY(-8px) rotate(1.2deg);
-      box-shadow: 0 15px 45px rgba(245, 158, 11, 0.28);
-    }
-
-    .tarot-card-inner {
-      background-color: var(--color-starry-light);
-      border: 1.5px solid var(--color-gold);
-      border-radius: 10px;
-      padding: 28px;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .tarot-card-inner::before {
-      content: '';
-      position: absolute;
-      top: 6px;
-      left: 6px;
-      right: 6px;
-      bottom: 6px;
-      border: 1px dashed rgba(223, 177, 91, 0.25);
-      pointer-events: none;
-    }
-
-    .tarot-header {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      font-size: 13px;
-      color: var(--color-gold);
-      letter-spacing: 2px;
-      margin-bottom: 18px;
-    }
-
-    .tarot-avatar-frame {
-      width: 96px;
-      height: 96px;
-      border: 2px solid var(--color-gold);
-      border-radius: 50%;
-      padding: 4px;
-      background-color: var(--color-starry);
-      margin-bottom: 18px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .tarot-avatar {
-      width: 100%;
-      height: 100%;
-    }
-
-    .tarot-rating {
-      color: var(--color-amber);
-      font-size: 19px;
-      margin-bottom: 16px;
-      letter-spacing: 2px;
-    }
-
-    .tarot-quote {
-      font-size: 14.5px;
-      line-height: 1.65;
-      font-style: italic;
-      opacity: 0.9;
-      margin-bottom: 22px;
-    }
-
-    .tarot-name {
-      font-size: 18px;
-      color: var(--color-gold);
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .tarot-role {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      opacity: 0.75;
-    }
-
-    /* SPELLBOOK CONTACT FORM */
-    .contact-section {
-      padding: 100px 0;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .spellbook-container {
-      display: grid;
-      grid-template-columns: 1fr 1.15fr;
-      max-width: 1040px;
-      margin: 40px auto;
-      border-radius: 16px;
-      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.45);
-      background-color: var(--color-parchment);
-      border: 4px double var(--color-cobalt);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .spellbook-left {
-      background-color: var(--color-parchment);
-      padding: 45px;
-      border-right: 2px dashed rgba(28, 61, 90, 0.2);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-      transition: filter 0.4s ease;
-    }
-
-    .spellbook-right {
-      background-color: var(--color-parchment-dark);
-      padding: 45px;
-    }
-
-    .spellbook-rules {
-      list-style: none;
-      padding-left: 0;
-      margin-top: 20px;
-    }
-
-    .spellbook-rules li {
-      font-size: 14.5px;
-      line-height: 1.55;
-      color: var(--color-text-dark);
-      margin-bottom: 15px;
-      position: relative;
-      padding-left: 24px;
-    }
-
-    .spellbook-rules li::before {
-      content: '✦';
-      position: absolute;
-      left: 0;
-      color: var(--color-gold);
-    }
-
-    .runic-decorations-left {
-      display: flex;
-      justify-content: space-around;
-      color: var(--color-cobalt);
-      font-size: 20px;
-      opacity: 0.4;
-      border-top: 1px dashed rgba(28, 61, 90, 0.2);
-      padding-top: 18px;
-      margin-top: 25px;
-    }
-
-    /* INTERACTIVE CANDLE */
-    .spellbook-candle-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 35px 0;
-    }
-
-    .candle {
-      position: relative;
-      width: 24px;
-      height: 85px;
-      cursor: pointer;
-    }
-
-    .wax {
-      position: absolute;
-      bottom: 0;
-      width: 24px;
-      height: 65px;
-      background: linear-gradient(to right, var(--color-parchment-dark), #e5dec9);
-      border-radius: 4px;
-      border: 1.5px solid var(--color-cobalt);
-      box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.5);
-    }
-
-    .wick {
-      position: absolute;
-      bottom: 65px;
-      left: 11px;
-      width: 2px;
-      height: 10px;
-      background-color: #333;
-    }
-
-    .flame {
-      position: absolute;
-      bottom: 74px;
-      left: 6px;
-      width: 12px;
-      height: 24px;
-      background: radial-gradient(circle at center, var(--color-starlight) 20%, var(--color-amber) 70%, transparent 100%);
-      border-radius: 50% 50% 20% 20% / 60% 60% 40% 40%;
-      box-shadow: 0 0 10px var(--color-amber), 0 0 20px var(--color-gold);
-      animation: flicker 1.4s ease-in-out infinite alternate;
-      transform-origin: bottom center;
-    }
-
-    @keyframes flicker {
-      0% { transform: scale(1) rotate(-1deg) skewX(-1deg); }
-      100% { transform: scale(1.12) rotate(2deg) skewX(2deg); }
-    }
-
-    .candle.extinguished .flame {
-      display: none;
-    }
-
-    .candle-hint {
-      font-size: 11px;
-      color: var(--color-text-dark);
-      font-style: italic;
-      margin-top: 10px;
-      text-align: center;
-      opacity: 0.75;
-      pointer-events: none;
-    }
-
-    /* FORM ELEMENTS */
-    .form-group {
-      position: relative;
-      margin-bottom: 26px;
-    }
-
-    .form-input, .form-select, .form-textarea {
-      width: 100%;
-      padding: 13px 18px;
-      border: 1.5px solid var(--color-cobalt);
-      background-color: var(--color-parchment);
-      color: var(--color-text-dark);
-      font-family: var(--font-sans);
-      font-size: 15px;
-      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; /* Sketch border */
-      outline: none;
-      transition: all 0.3s ease;
-    }
-
-    .form-textarea {
-      resize: vertical;
-      min-height: 110px;
-      border-radius: 15px 25px 15px 25px / 25px 15px 25px 15px;
-    }
-
-    .form-select {
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c3d5a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-      background-size: 18px;
-    }
-
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
-      border-color: var(--color-amber);
-      box-shadow: 0 0 8px rgba(245, 158, 11, 0.35);
-    }
-
-    .form-label {
-      position: absolute;
-      left: 18px;
-      top: 15px;
-      font-family: var(--font-sans);
-      font-size: 15px;
-      color: var(--color-cobalt);
-      opacity: 0.7;
-      pointer-events: none;
-      transition: all 0.25s ease;
-    }
-
-    /* Floating Labels Logic */
-    .form-input:focus + .form-label,
-    .form-input:not(:placeholder-shown) + .form-label,
-    .form-textarea:focus + .form-label,
-    .form-textarea:not(:placeholder-shown) + .form-label,
-    .form-select:focus + .form-label,
-    .form-select:valid + .form-label {
-      top: -10px;
-      left: 14px;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--color-amber);
-      background-color: var(--color-parchment-dark);
-      padding: 0 6px;
-      opacity: 1;
-    }
-
-    .form-checkbox-group {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 26px;
-    }
-
-    .form-checkbox {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--color-amber);
-      cursor: pointer;
-    }
-
-    .form-checkbox-label {
-      font-family: var(--font-sans);
-      font-size: 13px;
-      color: var(--color-text-dark);
-      cursor: pointer;
-      line-height: 1.4;
-    }
-
-    .form-error {
-      display: none;
-      font-size: 11px;
-      color: #b91c1c;
-      margin-top: 5px;
-      font-weight: 700;
-    }
-
-    .form-group.invalid .form-input,
-    .form-group.invalid .form-select,
-    .form-group.invalid .form-textarea {
-      border-color: #b91c1c;
-      background-color: #fef2f2;
-    }
-
-    .form-group.invalid .form-error {
-      display: block;
-    }
-
-    /* FOOTER */
-    .footer {
-      padding: 85px 0 35px 0;
-      border-top: 1.5px solid rgba(223, 177, 91, 0.2);
-    }
-
-    .footer-container {
-      display: grid;
-      grid-template-columns: 1.25fr 0.85fr 0.9fr;
-      gap: 60px;
-    }
-
-    .footer-desc {
-      font-size: 14px;
-      line-height: 1.65;
-      margin-bottom: 22px;
-    }
-
-    .footer-socials {
-      display: flex;
-      gap: 15px;
-    }
-
-    .social-link {
-      color: var(--color-parchment);
-      background-color: var(--color-starry-light);
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 1px solid var(--color-gold);
-      transition: all 0.3s ease;
-      text-decoration: none;
-    }
-
-    .social-link:hover {
-      color: var(--color-starry);
-      background-color: var(--color-gold);
-      box-shadow: 0 0 12px var(--color-gold);
-      transform: translateY(-3px);
-    }
-
-    .footer-hours h4, .footer-links h4 {
-      font-size: 19px;
-      margin-bottom: 22px;
-    }
-
-    .hours-list, .footer-links-list {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .hours-list li {
-      font-size: 14px;
-      line-height: 1.8;
-      margin-bottom: 10px;
-    }
-
-    .footer-links-list li {
-      margin-bottom: 12px;
-    }
-
-    .footer-link {
-      color: var(--color-text-light);
-      opacity: 0.8;
-      text-decoration: none;
-      font-size: 14px;
-      transition: all 0.3s ease;
-    }
-
-    .footer-link:hover {
-      color: var(--color-gold);
-      opacity: 1;
-      padding-left: 6px;
-    }
-
-    .footer-bottom {
-      text-align: center;
-      border-top: 1px solid rgba(223, 177, 91, 0.1);
-      margin-top: 70px;
-      padding-top: 35px;
-      font-size: 13.5px;
-      color: var(--color-text-light);
-      opacity: 0.6;
-    }
-
-    /* SCROLL ANIMATION INITIAL STATES */
-    .fade-up-init {
-      opacity: 0;
-      transform: translateY(35px);
-      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .fade-up-init.in-view {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* CLICK SPARKLES EFFECT */
-    .click-sparkle {
-      position: fixed;
-      pointer-events: none;
-      font-size: 15px;
-      transform: translate(-50%, -50%);
-      animation: explodeSparkle 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-      z-index: 9999;
-    }
-
-    @keyframes explodeSparkle {
-      0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-      100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.3); opacity: 0; }
-    }
-
-    /* MOBILE OVERLAY MENU */
-    .mobile-menu-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: var(--color-starry);
-      z-index: 2000;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease;
-    }
-
-    .mobile-menu-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .mobile-menu-close {
-      position: absolute;
-      top: 25px;
-      right: 25px;
-      background: none;
-      border: none;
-      color: var(--color-gold);
-      cursor: pointer;
-    }
-
-    .mobile-menu-links {
-      list-style: none;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-    }
-
-    .mobile-menu-link {
-      font-family: var(--font-serif);
-      font-size: 24px;
-      text-decoration: none;
-      color: var(--color-parchment);
-      transition: color 0.3s ease;
-    }
-
-    .mobile-menu-link:hover {
-      color: var(--color-gold);
-    }
-
-    /* LOADING & CONJURING OVERLAYS */
-    .conjuring-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: rgba(10, 17, 40, 0.96);
-      z-index: 3000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.5s ease;
-    }
-
-    .conjuring-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .conjuring-content {
-      text-align: center;
-      color: var(--color-parchment);
-    }
-
-    .conjuring-content h3 {
-      font-family: var(--font-serif);
-      font-size: 26px;
-      color: var(--color-gold);
-      margin-top: 22px;
-      letter-spacing: 1px;
-    }
-
-    .conjuring-content p {
-      font-family: var(--font-sans);
-      font-size: 15px;
-      color: var(--color-text-light);
-      opacity: 0.8;
-      margin-top: 6px;
-    }
-
-    .loading-magic-circle {
-      animation: spinLoadingCircle 9s linear infinite;
-    }
-
-    .spinner-center {
-      animation: spinLoadingCircle 2.2s linear infinite reverse;
-    }
-
-    @keyframes spinLoadingCircle {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    /* SUCCESS MODAL */
-    .success-modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: rgba(10, 17, 40, 0.85);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      z-index: 3001;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease;
-    }
-
-    .success-modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .success-modal {
-      max-width: 520px;
-      width: 90%;
-      transform: scale(0.85);
-      opacity: 0;
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
-    }
-
-    .success-modal-overlay.active .success-modal {
-      transform: scale(1);
-      opacity: 1;
-    }
-
-    .success-seal {
-      margin-bottom: 22px;
-    }
-
-    /* MEDIA QUERIES RESPONSIVIDAD */
-    @media (max-width: 991px) {
-      .hero-container {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 60px;
-      }
-      .hero-actions {
-        justify-content: center;
-      }
-      .hero-visual-wrapper {
-        margin: 0 auto;
-      }
-      .about-layout {
-        grid-template-columns: 1fr;
-        gap: 50px;
-      }
-      .services-grid {
-        grid-template-columns: 1fr;
-        gap: 60px;
-      }
-      .testimonials-grid {
-        grid-template-columns: 1fr;
-        max-width: 460px;
-        margin: 0 auto;
-      }
-      .spellbook-container {
-        grid-template-columns: 1fr;
-        max-width: 580px;
-      }
-      .spellbook-left {
-        border-right: none;
-        border-bottom: 2px dashed rgba(28, 61, 90, 0.2);
-        padding: 40px 30px;
-      }
-      .spellbook-right {
-        padding: 40px 30px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      header {
-        padding: 10px 0;
-      }
-      .nav-links {
-        display: none;
-      }
-      .nav-cta {
-        display: none;
-      }
-      .mobile-toggle {
-        display: block;
-      }
-      .hero-title {
-        font-size: 38px;
-      }
-      .footer-container {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tinta & Alquimia: imprenta artesanal 2D y fabricación mágica 3D para grimorios, pergaminos, miniaturas, runas y artefactos personalizados.">
+    <title>Tinta & Alquimia | Imprenta Mágica 2D y 3D</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <style>
+        :root {
+            --parchment: #fcfbf7;
+            --parchment-deep: #f0e4cb;
+            --ink: #17202a;
+            --muted-ink: #58616f;
+            --night: #0a1128;
+            --night-soft: #101a3c;
+            --cobalt: #1c3d5a;
+            --emerald: #14532d;
+            --gold: #dfb15b;
+            --amber: #f59e0b;
+            --starlight: #fef08a;
+            --rose-wax: #8f2d3d;
+            --white: #ffffff;
+            --line: rgba(28, 61, 90, 0.22);
+            --shadow: 0 24px 70px rgba(10, 17, 40, 0.16);
+            --glow: 0 0 34px rgba(223, 177, 91, 0.45);
+            --radius: 8px;
+            --max: 1180px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            background:
+                radial-gradient(circle at 18% 12%, rgba(223, 177, 91, 0.16), transparent 26rem),
+                radial-gradient(circle at 85% 16%, rgba(20, 83, 45, 0.10), transparent 22rem),
+                var(--parchment);
+            color: var(--ink);
+            font-family: "Outfit", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.65;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            opacity: 0.36;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(23, 32, 42, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(23, 32, 42, 0.03) 1px, transparent 1px),
+                radial-gradient(circle, rgba(28, 61, 90, 0.08) 1px, transparent 1.5px);
+            background-size: 44px 44px, 44px 44px, 18px 18px;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            border: 0;
+            cursor: pointer;
+        }
+
+        img,
+        svg {
+            display: block;
+            max-width: 100%;
+        }
+
+        .page-shell {
+            position: relative;
+            isolation: isolate;
+        }
+
+        .section {
+            padding: 5rem 1.25rem;
+        }
+
+        .section.night {
+            position: relative;
+            color: var(--white);
+            background:
+                radial-gradient(circle at top left, rgba(223, 177, 91, 0.18), transparent 28rem),
+                radial-gradient(circle at bottom right, rgba(20, 83, 45, 0.18), transparent 25rem),
+                linear-gradient(135deg, var(--night), var(--night-soft));
+            overflow: hidden;
+        }
+
+        .section.night::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: 0.34;
+            pointer-events: none;
+            background-image:
+                radial-gradient(circle, rgba(254, 240, 138, 0.8) 1px, transparent 1.5px),
+                radial-gradient(circle, rgba(255, 255, 255, 0.5) 1px, transparent 1.5px);
+            background-position: 0 0, 35px 45px;
+            background-size: 95px 95px, 130px 130px;
+        }
+
+        .container {
+            width: min(100%, var(--max));
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--emerald);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .night .eyebrow {
+            color: var(--starlight);
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: "Cinzel", Georgia, serif;
+            line-height: 1.05;
+            letter-spacing: 0;
+        }
+
+        h1 {
+            max-width: 790px;
+            margin-top: 1rem;
+            color: var(--night);
+            font-size: clamp(2.55rem, 8vw, 5.8rem);
+        }
+
+        h2 {
+            margin-top: 0.75rem;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--night);
+        }
+
+        .night h2,
+        .night h3 {
+            color: var(--white);
+        }
+
+        .section-lead {
+            max-width: 720px;
+            margin-top: 1rem;
+            color: var(--muted-ink);
+            font-size: 1.08rem;
+        }
+
+        .night .section-lead {
+            color: rgba(255, 255, 255, 0.76);
+        }
+
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 20;
+            width: 100%;
+            padding: 0.9rem 1rem;
+            transition: background 0.25s ease, box-shadow 0.25s ease, padding 0.25s ease;
+        }
+
+        .site-header.scrolled {
+            padding-block: 0.6rem;
+            background: rgba(252, 251, 247, 0.88);
+            box-shadow: 0 12px 34px rgba(10, 17, 40, 0.10);
+            backdrop-filter: blur(18px);
+        }
+
+        .nav-wrap {
+            width: min(100%, var(--max));
+            min-height: 64px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            border: 1px solid rgba(28, 61, 90, 0.16);
+            border-radius: 999px;
+            padding: 0.45rem 0.55rem 0.45rem 0.75rem;
+            background: rgba(252, 251, 247, 0.74);
+            backdrop-filter: blur(16px);
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            min-width: max-content;
+            font-family: "Cinzel", Georgia, serif;
+            font-weight: 800;
+            color: var(--night);
+        }
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(223, 177, 91, 0.8);
+            border-radius: 50%;
+            color: var(--gold);
+            background:
+                conic-gradient(from 45deg, rgba(223, 177, 91, 0.24), transparent, rgba(20, 83, 45, 0.18), transparent),
+                var(--night);
+            box-shadow: var(--glow);
+        }
+
+        .nav-toggle {
+            width: 46px;
+            height: 46px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            color: var(--night);
+            background: rgba(223, 177, 91, 0.20);
+        }
+
+        .nav-menu {
+            position: absolute;
+            top: calc(100% + 0.8rem);
+            left: 1rem;
+            right: 1rem;
+            display: grid;
+            gap: 0.35rem;
+            padding: 1rem;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: rgba(252, 251, 247, 0.96);
+            box-shadow: var(--shadow);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-10px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .nav-menu.is-open {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .nav-menu a {
+            padding: 0.85rem 1rem;
+            border-radius: var(--radius);
+            color: var(--cobalt);
+            font-weight: 700;
+            transition: color 0.2s ease, background 0.2s ease;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a:focus-visible {
+            color: var(--night);
+            background: rgba(223, 177, 91, 0.18);
+            outline: 0;
+        }
+
+        .btn {
+            position: relative;
+            min-height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.55rem;
+            overflow: hidden;
+            border: 1px solid rgba(223, 177, 91, 0.8);
+            border-radius: 999px;
+            padding: 0.82rem 1.2rem;
+            color: var(--night);
+            background: linear-gradient(135deg, var(--gold), var(--starlight));
+            font-weight: 800;
+            box-shadow: 0 12px 28px rgba(223, 177, 91, 0.26);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn::before {
+            content: "";
+            position: absolute;
+            inset: -30% auto -30% -50%;
+            width: 40%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.62), transparent);
+            transform: skewX(-18deg);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover,
+        .btn:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: var(--glow);
+            outline: 0;
+        }
+
+        .btn:hover::before,
+        .btn:focus-visible::before {
+            left: 120%;
+        }
+
+        .btn.secondary {
+            color: var(--cobalt);
+            background: rgba(252, 251, 247, 0.72);
+            box-shadow: none;
+        }
+
+        .header-cta {
+            display: none;
+        }
+
+        .hero {
+            min-height: 100vh;
+            padding: 8.5rem 1.25rem 5rem;
+            display: grid;
+            align-items: center;
+        }
+
+        .hero-grid {
+            display: grid;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-copy p {
+            max-width: 640px;
+            margin: 1.35rem 0 1.8rem;
+            color: var(--muted-ink);
+            font-size: 1.16rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .hero-visual {
+            min-height: 380px;
+            display: grid;
+            place-items: center;
+            perspective: 1000px;
+        }
+
+        .summoning-stage {
+            position: relative;
+            width: min(88vw, 430px);
+            aspect-ratio: 1;
+            display: grid;
+            place-items: center;
+            transform-style: preserve-3d;
+        }
+
+        .magic-disc {
+            position: absolute;
+            inset: 6%;
+            border: 1px solid rgba(28, 61, 90, 0.26);
+            border-radius: 50%;
+            background:
+                radial-gradient(circle, rgba(254, 240, 138, 0.22), transparent 12%),
+                repeating-conic-gradient(from 15deg, rgba(223, 177, 91, 0.32) 0 2deg, transparent 2deg 16deg);
+            box-shadow: inset 0 0 0 10px rgba(252, 251, 247, 0.82), var(--shadow);
+            transform: rotateX(68deg) rotateZ(0deg);
+            animation: turn 28s linear infinite;
+        }
+
+        .magic-disc::before,
+        .magic-disc::after {
+            content: "";
+            position: absolute;
+            inset: 11%;
+            border: 1px solid rgba(28, 61, 90, 0.42);
+            border-radius: 50%;
+        }
+
+        .magic-disc::after {
+            inset: 25%;
+            border-style: dashed;
+            border-color: rgba(20, 83, 45, 0.45);
+            animation: turnReverse 18s linear infinite;
+        }
+
+        .printed-object {
+            position: relative;
+            width: 128px;
+            height: 170px;
+            margin-top: -4rem;
+            display: grid;
+            place-items: end center;
+            transform: translateZ(80px);
+            transition: transform 0.45s ease;
+        }
+
+        .printed-object::before {
+            content: "";
+            width: 82px;
+            height: 130px;
+            clip-path: polygon(50% 0, 84% 18%, 82% 72%, 50% 100%, 18% 72%, 16% 18%);
+            background:
+                linear-gradient(135deg, rgba(254, 240, 138, 0.9), rgba(223, 177, 91, 0.92) 42%, rgba(20, 83, 45, 0.86)),
+                var(--gold);
+            box-shadow: 0 20px 42px rgba(10, 17, 40, 0.28), 0 0 34px rgba(223, 177, 91, 0.45);
+        }
+
+        .printed-object::after {
+            content: "";
+            position: absolute;
+            top: -70px;
+            width: 8px;
+            height: 125px;
+            border-radius: 999px;
+            background: linear-gradient(var(--amber), transparent);
+            opacity: 0.84;
+            animation: filament 1.8s ease-in-out infinite;
+        }
+
+        .extruder {
+            position: absolute;
+            top: 2rem;
+            width: 110px;
+            height: 74px;
+            display: grid;
+            place-items: center;
+            color: var(--starlight);
+            border: 1px solid rgba(223, 177, 91, 0.72);
+            border-radius: var(--radius);
+            background: linear-gradient(135deg, var(--night), var(--cobalt));
+            box-shadow: var(--glow);
+            animation: hoverNozzle 3s ease-in-out infinite;
+        }
+
+        .summoning-stage:hover .printed-object {
+            transform: translateZ(120px) translateY(-12px) rotateY(-10deg);
+        }
+
+        .sigil {
+            position: absolute;
+            width: 82px;
+            height: 82px;
+            opacity: 0.74;
+            color: var(--gold);
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .sigil.one {
+            top: 8%;
+            left: 4%;
+        }
+
+        .sigil.two {
+            right: 2%;
+            bottom: 16%;
+            animation-delay: -1.4s;
+        }
+
+        .about-grid {
+            display: grid;
+            gap: 2rem;
+            align-items: stretch;
+            margin-top: 2.4rem;
+        }
+
+        .ink-panel,
+        .spell-book,
+        .service-card,
+        .review-card {
+            position: relative;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.74), rgba(240, 228, 203, 0.76)),
+                var(--parchment);
+            box-shadow: var(--shadow);
+        }
+
+        .ink-panel {
+            padding: clamp(1.5rem, 4vw, 2.4rem);
+            overflow: hidden;
+        }
+
+        .ink-panel::before,
+        .spell-book::before,
+        .service-card::before,
+        .review-card::before {
+            content: "";
+            position: absolute;
+            inset: 10px;
+            border: 1px dashed rgba(28, 61, 90, 0.18);
+            border-radius: calc(var(--radius) - 2px);
+            pointer-events: none;
+        }
+
+        .dropcap::first-letter {
+            float: left;
+            margin: 0.1rem 0.6rem 0 0;
+            color: var(--cobalt);
+            font-family: "Cinzel", Georgia, serif;
+            font-size: 4.2rem;
+            line-height: 0.78;
+        }
+
+        .atelier-list {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .atelier-list li {
+            display: flex;
+            gap: 0.8rem;
+            align-items: flex-start;
+            color: var(--muted-ink);
+            list-style: none;
+        }
+
+        .atelier-list i {
+            flex: 0 0 auto;
+            color: var(--emerald);
+            margin-top: 0.2rem;
+        }
+
+        .services-grid {
+            display: grid;
+            gap: 1.1rem;
+            margin-top: 2.5rem;
+        }
+
+        .service-card {
+            min-height: 310px;
+            padding: 1.55rem;
+            overflow: hidden;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(223, 177, 91, 0.76);
+            box-shadow: 0 26px 76px rgba(223, 177, 91, 0.22);
+        }
+
+        .service-icon {
+            width: 58px;
+            height: 58px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(223, 177, 91, 0.6);
+            border-radius: 50%;
+            color: var(--gold);
+            background: var(--night);
+        }
+
+        .service-card h3 {
+            color: var(--night);
+            font-size: 1.35rem;
+        }
+
+        .service-card p {
+            margin-top: 0.7rem;
+            color: var(--muted-ink);
+        }
+
+        .service-card ul {
+            display: grid;
+            gap: 0.45rem;
+            margin-top: 1rem;
+            color: var(--cobalt);
+            font-weight: 700;
+            list-style: none;
+        }
+
+        .mini-circle {
+            position: absolute;
+            right: -30px;
+            bottom: -30px;
+            width: 128px;
+            height: 128px;
+            border: 1px solid rgba(28, 61, 90, 0.2);
+            border-radius: 50%;
+            background: repeating-conic-gradient(rgba(223, 177, 91, 0.25) 0 10deg, transparent 10deg 22deg);
+            transition: transform 0.45s ease;
+        }
+
+        .service-card:hover .mini-circle {
+            transform: rotate(95deg) scale(1.08);
+        }
+
+        .reviews-grid {
+            display: grid;
+            gap: 1.1rem;
+            margin-top: 2.5rem;
+        }
+
+        .review-card {
+            min-height: 300px;
+            padding: 1.5rem;
+            color: var(--ink);
+        }
+
+        .avatar {
+            width: 68px;
+            height: 68px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 1rem;
+            color: var(--starlight);
+            border: 1px solid rgba(223, 177, 91, 0.55);
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at 50% 28%, rgba(254, 240, 138, 0.46) 0 12%, transparent 13%),
+                linear-gradient(135deg, var(--cobalt), var(--night));
+            box-shadow: 0 12px 28px rgba(10, 17, 40, 0.22);
+        }
+
+        .stars {
+            display: flex;
+            gap: 0.18rem;
+            margin-bottom: 1rem;
+            color: var(--amber);
+        }
+
+        blockquote {
+            color: var(--muted-ink);
+        }
+
+        .review-name {
+            margin-top: 1rem;
+            color: var(--night);
+            font-weight: 800;
+        }
+
+        .review-role {
+            color: var(--cobalt);
+            font-size: 0.92rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            gap: 2rem;
+            align-items: start;
+            margin-top: 2.4rem;
+        }
+
+        .spell-book {
+            padding: clamp(1.4rem, 4vw, 2rem);
+            overflow: hidden;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .field {
+            position: relative;
+        }
+
+        .field input,
+        .field select,
+        .field textarea {
+            width: 100%;
+            min-height: 58px;
+            border: 1px solid rgba(28, 61, 90, 0.24);
+            border-radius: var(--radius);
+            padding: 1.35rem 1rem 0.55rem;
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.62);
+            outline: 0;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .field textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .field label {
+            position: absolute;
+            top: 0.98rem;
+            left: 1rem;
+            color: var(--muted-ink);
+            font-size: 0.95rem;
+            pointer-events: none;
+            transition: transform 0.18s ease, color 0.18s ease, font-size 0.18s ease;
+        }
+
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            border-color: var(--gold);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(223, 177, 91, 0.18);
+        }
+
+        .field input:focus + label,
+        .field input:not(:placeholder-shown) + label,
+        .field textarea:focus + label,
+        .field textarea:not(:placeholder-shown) + label,
+        .field select:focus + label,
+        .field select:valid + label {
+            transform: translateY(-0.6rem);
+            color: var(--cobalt);
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .field select {
+            appearance: none;
+        }
+
+        .select-icon {
+            position: absolute;
+            right: 1rem;
+            top: 1.1rem;
+            color: var(--cobalt);
+            pointer-events: none;
+        }
+
+        .form-status {
+            min-height: 28px;
+            color: var(--cobalt);
+            font-weight: 700;
+        }
+
+        .loader {
+            width: 24px;
+            height: 24px;
+            display: none;
+            border: 2px solid rgba(10, 17, 40, 0.22);
+            border-top-color: var(--night);
+            border-radius: 50%;
+            animation: turn 0.8s linear infinite;
+        }
+
+        .is-sending .loader {
+            display: block;
+        }
+
+        .is-sending .send-label {
+            display: none;
+        }
+
+        .contact-aside {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .note-card {
+            padding: 1.3rem;
+            border: 1px solid rgba(223, 177, 91, 0.3);
+            border-radius: var(--radius);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .note-card h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.15rem;
+        }
+
+        .note-card p {
+            color: rgba(255, 255, 255, 0.73);
+        }
+
+        .footer {
+            padding: 3rem 1.25rem;
+            color: rgba(255, 255, 255, 0.76);
+            background: #070d20;
+        }
+
+        .footer-grid {
+            width: min(100%, var(--max));
+            margin: 0 auto;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .footer strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--white);
+            font-family: "Cinzel", Georgia, serif;
+        }
+
+        .socials,
+        .policy-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+
+        .socials a {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(223, 177, 91, 0.36);
+            border-radius: 50%;
+            color: var(--gold);
+            transition: color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .socials a:hover,
+        .socials a:focus-visible {
+            color: var(--starlight);
+            box-shadow: var(--glow);
+            transform: translateY(-2px);
+            outline: 0;
+        }
+
+        .policy-links a:hover {
+            color: var(--starlight);
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: grid;
+            place-items: center;
+            padding: 1rem;
+            background: rgba(10, 17, 40, 0.64);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .modal.is-open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            width: min(100%, 470px);
+            padding: 2rem;
+            border: 1px solid rgba(223, 177, 91, 0.55);
+            border-radius: var(--radius);
+            text-align: center;
+            background: var(--parchment);
+            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.35);
+            transform: translateY(14px);
+            transition: transform 0.2s ease;
+        }
+
+        .modal.is-open .modal-card {
+            transform: translateY(0);
+        }
+
+        .modal-sigil {
+            width: 84px;
+            height: 84px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 1rem;
+            color: var(--gold);
+            border: 1px solid rgba(223, 177, 91, 0.72);
+            border-radius: 50%;
+            background: var(--night);
+            animation: turn 12s linear infinite;
+        }
+
+        .modal h2 {
+            font-size: 1.65rem;
+        }
+
+        .modal p {
+            margin: 0.8rem 0 1.4rem;
+            color: var(--muted-ink);
+        }
+
+        @keyframes turn {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes turnReverse {
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-14px) rotate(10deg);
+            }
+        }
+
+        @keyframes filament {
+            0%,
+            100% {
+                height: 98px;
+                opacity: 0.54;
+            }
+            50% {
+                height: 142px;
+                opacity: 0.95;
+            }
+        }
+
+        @keyframes hoverNozzle {
+            0%,
+            100% {
+                transform: translateX(-18px);
+            }
+            50% {
+                transform: translateX(18px);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        @media (min-width: 760px) {
+            .section {
+                padding-block: 6.5rem;
+            }
+
+            .hero-grid,
+            .about-grid,
+            .contact-grid {
+                grid-template-columns: 1.02fr 0.98fr;
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .reviews-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .footer-grid {
+                grid-template-columns: 1.3fr 1fr 1fr;
+                align-items: start;
+            }
+        }
+
+        @media (min-width: 980px) {
+            .nav-toggle {
+                display: none;
+            }
+
+            .nav-menu {
+                position: static;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.2rem;
+                padding: 0;
+                border: 0;
+                background: transparent;
+                box-shadow: none;
+                opacity: 1;
+                pointer-events: auto;
+                transform: none;
+            }
+
+            .nav-menu a {
+                padding: 0.65rem 0.8rem;
+                font-size: 0.95rem;
+            }
+
+            .header-cta {
+                display: inline-flex;
+            }
+        }
+    </style>
 </head>
 <body>
-
-  <!-- EMBEDDED NON-VISIBLE HAND-DRAWN FILTER SVG -->
-  <svg style="position: absolute; width: 0; height: 0;" width="0" height="0">
-    <defs>
-      <filter id="hand-drawn">
-        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise" />
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
-      </filter>
-    </defs>
-  </svg>
-
-  <!-- HEADER -->
-  <header id="header">
-    <div class="nav-container">
-      <a href="#inicio" class="logo-wrap">
-        <svg class="logo-svg" viewBox="0 0 100 100" width="38" height="38" fill="none" stroke="currentColor">
-          <circle cx="50" cy="50" r="45" stroke="#1c3d5a" stroke-width="2" />
-          <circle cx="50" cy="50" r="38" stroke="#dfb15b" stroke-width="1.5" stroke-dasharray="3 2" />
-          <!-- Quill (Pen) -->
-          <path d="M 35,65 L 60,40" stroke="#1c3d5a" stroke-width="3" stroke-linecap="round" />
-          <path d="M 62,38 L 65,25 L 57,33 Z" fill="#1c3d5a" />
-          <!-- Extruder nozzle crossing -->
-          <path d="M 65,65 L 40,40" stroke="#1c3d5a" stroke-width="3" stroke-linecap="round" />
-          <path d="M 33,37 L 25,35 L 28,42 Z" fill="#1c3d5a" />
-          <!-- Star in middle -->
-          <path d="M 50,42 L 52,48 L 58,50 L 52,52 L 50,58 L 48,52 L 42,50 L 48,48 Z" fill="#dfb15b" />
-        </svg>
-        <div class="logo-text">
-          <span class="logo-title font-serif">TINTA & ALQUIMIA</span>
-          <span class="logo-sub">Imprenta Mágica & 3D</span>
-        </div>
-      </a>
-      
-      <ul class="nav-links">
-        <li><a href="#inicio" class="nav-link">Inicio</a></li>
-        <li><a href="#atelier" class="nav-link">El Atelier</a></li>
-        <li><a href="#servicios" class="nav-link">Servicios</a></li>
-        <li><a href="#reseñas" class="nav-link">Reseñas</a></li>
-        <li><a href="#contacto" class="nav-link">Contacto</a></li>
-      </ul>
-      
-      <div class="nav-cta">
-        <a href="#contacto" class="btn btn-magic-small">Invocar Pedido</a>
-      </div>
-
-      <button class="mobile-toggle" aria-label="Abrir Menú">
-        <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="3" y1="12" x2="21" y2="12"></line>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
-      </button>
-    </div>
-  </header>
-
-  <!-- MOBILE MENU OVERLAY -->
-  <div class="mobile-menu-overlay">
-    <button class="mobile-menu-close" aria-label="Cerrar Menú">
-      <svg viewBox="0 0 24 24" width="30" height="30" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
-    </button>
-    <ul class="mobile-menu-links">
-      <li><a href="#inicio" class="mobile-menu-link">Inicio</a></li>
-      <li><a href="#atelier" class="mobile-menu-link">El Atelier</a></li>
-      <li><a href="#servicios" class="mobile-menu-link">Servicios</a></li>
-      <li><a href="#reseñas" class="mobile-menu-link">Reseñas</a></li>
-      <li><a href="#contacto" class="mobile-menu-link">Contacto</a></li>
-      <li style="margin-top: 15px;"><a href="#contacto" class="btn btn-magic-large">Invocar Pedido</a></li>
-    </ul>
-  </div>
-
-  <!-- HERO SECTION -->
-  <section id="inicio" class="hero-section parchment-bg">
-    <div class="container hero-container">
-      <div class="hero-content fade-up-init">
-        <div class="hero-badge">Estudio Gráfico & Manufactura Mística</div>
-        <h1 class="hero-title font-serif">Donde la Tinta se Vuelve Realidad y el Hilo Crea Mundos</h1>
-        <p class="hero-subtitle font-sans">
-          Bienvenido a <strong>Tinta & Alquimia</strong>. Fusionamos la antigua artesanía de la imprenta manual con la alquimia tecnológica de la impresión 3D. Damos forma tangible a grimorios encuadernados a mano, pergaminos con tintas reactivas y artefactos tridimensionales forjados con filamentos estelares.
-        </p>
-        <div class="hero-actions">
-          <a href="#contacto" class="btn btn-magic-large">Invocar un Pedido</a>
-          <a href="#atelier" class="btn btn-magic-secondary">Explorar el Atelier</a>
-        </div>
-      </div>
-      
-      <div class="hero-visual-wrapper">
-        <div class="hero-visual">
-          <!-- Starry sky backdrop inside the frame -->
-          <div class="portal-backdrop"></div>
-          
-          <!-- Light beam of materialize -->
-          <div class="light-beam"></div>
-          
-          <!-- 3D Rotating Magic Platform -->
-          <div class="magic-platform">
-            <svg class="magic-circle-svg" viewBox="0 0 200 200">
-              <defs>
-                <path id="heroTextPath" d="M 100, 100 m -66, 0 a 66,66 0 1,1 132,0 a 66,66 0 1,1 -132,0" />
-              </defs>
-              <circle cx="100" cy="100" r="92" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="6 4" />
-              <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1" />
-              
-              <!-- Star of David / Octagram geometry -->
-              <path d="M 100,15 L 185,100 L 100,185 L 15,100 Z" fill="none" stroke="currentColor" stroke-width="0.8" />
-              <path d="M 40,40 L 160,40 L 160,160 L 40,160 Z" fill="none" stroke="currentColor" stroke-width="0.8" transform="rotate(45 100 100)" />
-              
-              <circle cx="100" cy="100" r="69" fill="none" stroke="currentColor" stroke-width="1.2" />
-              
-              <text font-family="'Cinzel', serif" font-size="7.5" fill="currentColor" letter-spacing="1.5">
-                <textPath href="#heroTextPath" startOffset="0%">• TINTA Y ALQUIMIA • IMPRESIÓN MÁGICA 2D Y 3D •</textPath>
-              </text>
-              
-              <circle cx="100" cy="100" r="54" fill="none" stroke="currentColor" stroke-width="1" />
-              <circle cx="100" cy="100" r="48" fill="none" stroke="currentColor" stroke-width="0.5" stroke-dasharray="2 2" />
-              
-              <!-- Inward pointing runic triangles -->
-              <path d="M 100,52 L 141,124 L 59,124 Z" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.7" />
-              <path d="M 100,148 L 141,76 L 59,76 Z" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.7" />
-              
-              <circle cx="100" cy="100" r="20" fill="none" stroke="currentColor" stroke-width="1.5" />
-              <circle cx="100" cy="100" r="6" fill="currentColor" />
-            </svg>
-          </div>
-          
-          <!-- Floating Object: Key representing Quill & Filament structure -->
-          <div class="floating-object">
-            <svg viewBox="0 0 100 180" width="100%" height="100%">
-              <!-- Key Head (decorated gear) -->
-              <circle cx="50" cy="45" r="25" fill="none" stroke="var(--color-gold)" stroke-width="2.5" />
-              <circle cx="50" cy="45" r="21" fill="none" stroke="var(--color-gold)" stroke-width="1" stroke-dasharray="3 2" />
-              
-              <g transform="translate(50,45)">
-                <circle cx="0" cy="0" r="10" fill="none" stroke="var(--color-starlight)" stroke-width="2" />
-                <path d="M 0,-12 L 0,-8 M 0,8 L 0,12 M -12,0 L -8,0 M 8,0 L 12,0 M -8,-8 L -5,-5 M 5,5 L 8,8 M -8,8 L -5,5 M 5,-5 L 8,-8" stroke="var(--color-starlight)" stroke-width="2" stroke-linecap="round" />
-                <path d="M 0,-4 L 1,-1 L 4,0 L 1,1 L 0,4 L -1,1 L -4,0 L -1,-1 Z" fill="var(--color-amber)" />
-              </g>
-              
-              <!-- Key Shaft (Quill Body) -->
-              <line x1="50" y1="70" x2="50" y2="135" stroke="var(--color-gold)" stroke-width="3" stroke-linecap="round" />
-              <path d="M 50,75 C 65,85 65,115 50,125 C 35,115 35,85 50,75 Z" fill="none" stroke="var(--color-gold)" stroke-width="1.5" />
-              <path d="M 50,85 C 60,92 60,105 50,112 C 40,105 40,92 50,85 Z" fill="none" stroke="var(--color-starlight)" stroke-width="1" />
-              
-              <line x1="50" y1="83" x2="60" y2="78" stroke="var(--color-gold)" stroke-width="1" />
-              <line x1="50" y1="93" x2="62" y2="88" stroke="var(--color-gold)" stroke-width="1" />
-              <line x1="50" y1="103" x2="61" y2="98" stroke="var(--color-gold)" stroke-width="1" />
-              <line x1="50" y1="113" x2="58" y2="108" stroke="var(--color-gold)" stroke-width="1" />
-              <line x1="50" y1="83" x2="40" y2="78" stroke="var(--color-gold)" stroke-width="1" />
-              <line x1="50" y1="93" x2="38" y2="88" stroke="var(--color-gold)" stroke-width="1" />
-              <line x1="50" y1="103" x2="39" y2="98" stroke="var(--color-gold)" stroke-width="1" />
-              <line x1="50" y1="113" x2="42" y2="108" stroke="var(--color-gold)" stroke-width="1" />
-              
-              <!-- Key Bit (nozzle & layered block) -->
-              <g transform="translate(50, 135)">
-                <path d="M 0,0 L 15,0 L 15,20 L 5,20 L 5,10 L 0,10 Z" fill="none" stroke="var(--color-gold)" stroke-width="2" stroke-linejoin="round" />
-                <line x1="3" y1="4" x2="12" y2="4" stroke="var(--color-starlight)" stroke-width="1.5" />
-                <line x1="3" y1="8" x2="12" y2="8" stroke="var(--color-starlight)" stroke-width="1.5" />
-                <line x1="7" y1="12" x2="12" y2="12" stroke="var(--color-starlight)" stroke-width="1.5" />
-                <line x1="7" y1="16" x2="12" y2="16" stroke="var(--color-starlight)" stroke-width="1.5" />
-                <path d="M -2,0 L 2,0 L 0,8 Z" fill="var(--color-gold)" />
-                <circle cx="0" cy="12" r="3" fill="var(--color-amber)" />
-              </g>
-            </svg>
-          </div>
-          
-          <!-- Sparkles -->
-          <div class="ring-spark sp-1">✦</div>
-          <div class="ring-spark sp-2">★</div>
-          <div class="ring-spark sp-3">✧</div>
-          <div class="ring-spark sp-4">✦</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT US / EL ATELIER SECTION -->
-  <section id="atelier" class="about-section parchment-bg">
-    <div class="container about-container">
-      <div class="about-layout">
-        <div class="about-text fade-up-init">
-          <h2 class="section-title font-serif">El Atelier: Tinta & Alquimia</h2>
-          <div class="hand-drawn-divider"></div>
-          <p class="about-paragraph font-sans leading-relaxed">
-            <span class="drop-cap font-serif">E</span>n los confines donde la tradición besa la vanguardia gráfica, nuestro taller florece como un santuario de creación artesanal. Fundado por maestros entusiastas de la encuadernación clásica y la modelación tridimensional, <strong>Tinta & Alquimia</strong> nació de una premisa simple: todo pensamiento noble y diseño sabio merece ser materializado con honor, belleza y durabilidad.
-          </p>
-          <p class="about-paragraph font-sans leading-relaxed">
-            No somos una imprenta ordinaria; somos custodios de un oficio sagrado. Cada una de nuestras tintas mágicas se mezcla meticulosamente a mano, infusionando éter vegetal y pigmentos puros que reaccionan ante el calor o la luz de la luna. Paralelamente, en la cuna caliente de nuestros extrusores, hilos de polímeros compostables y polvo de bronce son fundidos capa por capa para transmutar en runas o engranajes tangibles con peso real.
-          </p>
-          <p class="about-paragraph font-sans leading-relaxed">
-            Aquí la dedicación humana se encuentra con la precisión de la alquimia moderna. Cada tomo cosido con hilo encerado o amuleto impreso en 3D se produce bajo una estricta ética de calidad y sostenibilidad, asegurando que el conocimiento de tu reino perdure intacto por generaciones.
-          </p>
-        </div>
-        
-        <div class="about-visual fade-up-init">
-          <!-- Interactive Pillars widget -->
-          <div class="atelier-interactive-frame gold-border-container">
-            <div class="gold-border-inner parchment-bg">
-              <h3 class="font-serif text-cobalt text-center" style="margin-bottom: 20px;">Los Tres Pilares del Oficio</h3>
-              
-              <div class="pilar-buttons">
-                <button class="pilar-btn active" data-pilar="pluma">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                  La Pluma
+    <div class="page-shell">
+        <header class="site-header" id="siteHeader">
+            <div class="nav-wrap">
+                <a class="brand" href="#inicio" aria-label="Ir al inicio de Tinta & Alquimia">
+                    <span class="brand-mark" aria-hidden="true"><i data-lucide="wand-sparkles"></i></span>
+                    <span>Tinta & Alquimia</span>
+                </a>
+                <nav class="nav-menu" id="navMenu" aria-label="Navegación principal">
+                    <a href="#inicio">Inicio</a>
+                    <a href="#servicios">Servicios</a>
+                    <a href="#nosotros">Nosotros</a>
+                    <a href="#resenas">Reseñas</a>
+                    <a href="#contacto">Contacto</a>
+                </nav>
+                <a class="btn header-cta" href="#contacto"><i data-lucide="sparkles"></i> Cotizar</a>
+                <button class="nav-toggle" id="navToggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="navMenu">
+                    <i data-lucide="menu"></i>
                 </button>
-                <button class="pilar-btn" data-pilar="alquimia">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22h20"></path><path d="M5 22V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v18"></path><path d="M9 18h6"></path><path d="M9 14h6"></path></svg>
-                  El Extrusor
-                </button>
-                <button class="pilar-btn" data-pilar="grimorio">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-                  El Grimorio
-                </button>
-              </div>
-              
-              <div class="pilar-content">
-                <div class="pilar-detail active" id="detail-pluma">
-                  <h4 class="font-serif text-cobalt">La Pluma de Éter (Tinta 2D)</h4>
-                  <p class="font-sans">Un instrumento clásico con plumilla de oro alquímico. Trazamos mapas celestiales y diagramas que guían las corrientes de energía. Sus tintas termosensibles e invisibles de noche se revelan bajo la calidez de un candil, dando vida a secretos insospechados.</p>
-                  <div class="pilar-status">Precisión de Trazo: Flujo Continuo | Tipo de Tintas: Orgánicas Reactivas</div>
-                </div>
-                <div class="pilar-detail" id="detail-alquimia">
-                  <h4 class="font-serif text-cobalt">El Extrusor de Fuego (Alquimia 3D)</h4>
-                  <p class="font-sans">La plataforma de materialización física. A 215 grados, la boquilla funde resinas cargadas de partículas metálicas o compuestos fluorescentes. Capa tras capa de filamento estelar, la figura geométrica o amuleto cobra volumen y peso real.</p>
-                  <div class="pilar-status">Resolución de Capa: 50 Micras | Materiales: Bronce Místico, Cobre, Resina 8K</div>
-                </div>
-                <div class="pilar-detail" id="detail-grimorio">
-                  <h4 class="font-serif text-cobalt">Encuadernación de Sabiduría (Costura)</h4>
-                  <p class="font-sans">Nuestras encuadernaciones se realizan cociendo pliego a pliego con costura copta o espina de pescado, usando hilo de cáñamo encerado. Cubiertos con cuero grabado al calor, estos volúmenes actúan como escudos eternos para tus conjuros.</p>
-                  <div class="pilar-status">Vida Útil Estimada: 500 Años | Refuerzo Rúnico: Contra Humedad e Incendios</div>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
+        </header>
+
+        <main>
+            <section class="hero section" id="inicio">
+                <div class="container hero-grid">
+                    <div class="hero-copy">
+                        <span class="eyebrow"><i data-lucide="sparkle"></i> Imprenta mágica 2D y 3D</span>
+                        <h1>Donde la tinta se vuelve realidad y el hilo crea mundos</h1>
+                        <p>Diseñamos grimorios, pergaminos, pósteres reactivos, miniaturas, amuletos y prototipos con oficio artesanal, precisión digital y una pizca de maravilla.</p>
+                        <div class="hero-actions">
+                            <a class="btn" href="#contacto"><i data-lucide="send"></i> Invocar un Pedido</a>
+                            <a class="btn secondary" href="#nosotros"><i data-lucide="compass"></i> Explorar el Atelier</a>
+                        </div>
+                    </div>
+                    <div class="hero-visual" aria-label="Círculo mágico de impresión 3D materializando un amuleto">
+                        <div class="summoning-stage">
+                            <svg class="sigil one" viewBox="0 0 100 100" aria-hidden="true">
+                                <circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M50 8 L61 38 L93 38 L67 57 L77 89 L50 70 L23 89 L33 57 L7 38 L39 38 Z" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                            </svg>
+                            <svg class="sigil two" viewBox="0 0 100 100" aria-hidden="true">
+                                <circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 8"/>
+                                <path d="M50 14 L86 50 L50 86 L14 50 Z M50 24 L76 50 L50 76 L24 50 Z" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                            </svg>
+                            <div class="magic-disc" aria-hidden="true"></div>
+                            <div class="extruder" aria-hidden="true"><i data-lucide="printer"></i></div>
+                            <div class="printed-object" aria-hidden="true"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="nosotros">
+                <div class="container">
+                    <span class="eyebrow"><i data-lucide="book-open"></i> El Atelier</span>
+                    <h2>Un taller de papel, filamento y pequeños imposibles</h2>
+                    <p class="section-lead">Tinta & Alquimia nació para unir el cuidado de una encuadernación antigua con la exactitud de la fabricación contemporánea.</p>
+                    <div class="about-grid">
+                        <article class="ink-panel">
+                            <p class="dropcap">En nuestro atelier, cada pedido empieza como un boceto sobre pergamino: una intención, una historia, una pieza que debe sentirse propia. Mezclamos tintas de acabado profundo, papeles de textura cálida y filamentos de alta definición para crear objetos que parecen venir de una mesa de trabajo encantada.</p>
+                            <p>Trabajamos con artistas, docentes, jugadores de rol, inventores y marcas que necesitan piezas con carácter. La magia está en los detalles: bordes limpios, relieves precisos, colores confiables y terminaciones que invitan a mirar de cerca.</p>
+                        </article>
+                        <aside class="ink-panel">
+                            <h3>Lo que cuidamos en cada conjuro</h3>
+                            <ul class="atelier-list">
+                                <li><i data-lucide="feather"></i><span>Diseño editorial y acabados en papel con apariencia artesanal, legible y duradera.</span></li>
+                                <li><i data-lucide="box"></i><span>Impresión 3D de miniaturas, runas y prototipos con calibración fina y posprocesado prolijo.</span></li>
+                                <li><i data-lucide="shield-check"></i><span>Asesoría honesta sobre materiales, tiempos y límites técnicos antes de producir.</span></li>
+                            </ul>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section night" id="servicios">
+                <div class="container">
+                    <span class="eyebrow"><i data-lucide="hammer"></i> Las Artes del Taller</span>
+                    <h2>Dos disciplinas, una misma búsqueda de maravilla</h2>
+                    <p class="section-lead">Del trazo impreso al volumen materializado, cada servicio se ajusta al proyecto y a la sensación que querés provocar.</p>
+                    <div class="services-grid">
+                        <article class="service-card">
+                            <span class="service-icon"><i data-lucide="scroll-text"></i></span>
+                            <h3>Impresión 2D</h3>
+                            <p>Producción de piezas gráficas con tintas expresivas, papeles seleccionados y terminaciones que evocan archivos secretos, mapas de viaje y bibliotecas de hechicería.</p>
+                            <ul>
+                                <li>Grimorios personalizados</li>
+                                <li>Pergaminos antiguos</li>
+                                <li>Tarjetas rúnicas y pósteres reactivos</li>
+                            </ul>
+                            <span class="mini-circle" aria-hidden="true"></span>
+                        </article>
+                        <article class="service-card">
+                            <span class="service-icon"><i data-lucide="cuboid"></i></span>
+                            <h3>Impresión 3D</h3>
+                            <p>Fabricación de objetos físicos mediante filamentos técnicos y acabados místicos: piezas para juego, exposición, prototipado o colección.</p>
+                            <ul>
+                                <li>Miniaturas místicas</li>
+                                <li>Artefactos alquímicos</li>
+                                <li>Prototipos de ingeniería mágica</li>
+                            </ul>
+                            <span class="mini-circle" aria-hidden="true"></span>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="resenas">
+                <div class="container">
+                    <span class="eyebrow"><i data-lucide="message-circle-heart"></i> Voces del Reino</span>
+                    <h2>Clientes que ya abrieron nuestro libro de encargos</h2>
+                    <p class="section-lead">Opiniones de magos, artesanos e inventores que confiaron sus piezas al taller.</p>
+                    <div class="reviews-grid">
+                        <article class="review-card">
+                            <span class="avatar"><i data-lucide="user-round"></i></span>
+                            <div class="stars" aria-label="Cinco estrellas">
+                                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+                            </div>
+                            <blockquote>El grimorio quedó sobrio, resistente y precioso. Las tintas doradas aparecen con la luz justa, como si el libro respirara.</blockquote>
+                            <p class="review-name">Maia Arven</p>
+                            <p class="review-role">Archivista de mapas raros</p>
+                        </article>
+                        <article class="review-card">
+                            <span class="avatar"><i data-lucide="flask-conical"></i></span>
+                            <div class="stars" aria-label="Cinco estrellas">
+                                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+                            </div>
+                            <blockquote>Necesitaba engranajes pequeños para un prototipo y resolvieron tolerancias, material y acabado sin perder el carácter de la pieza.</blockquote>
+                            <p class="review-name">Bruno Velkan</p>
+                            <p class="review-role">Inventor de mecanismos finos</p>
+                        </article>
+                        <article class="review-card">
+                            <span class="avatar"><i data-lucide="sparkles"></i></span>
+                            <div class="stars" aria-label="Cinco estrellas">
+                                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+                            </div>
+                            <blockquote>Las miniaturas llegaron con un nivel de detalle impecable. Pintarlas fue fácil porque la superficie ya venía cuidada.</blockquote>
+                            <p class="review-name">Lía Nacar</p>
+                            <p class="review-role">Narradora y modelista</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section night" id="contacto">
+                <div class="container">
+                    <span class="eyebrow"><i data-lucide="mail"></i> El Buzón de Hechizos</span>
+                    <h2>Contanos qué querés invocar</h2>
+                    <p class="section-lead">Describí tu pedido y te responderemos con materiales recomendados, tiempos estimados y una propuesta clara.</p>
+                    <div class="contact-grid">
+                        <form class="spell-book" id="spellForm">
+                            <div class="form-grid">
+                                <div class="field">
+                                    <input id="name" name="name" type="text" placeholder=" " autocomplete="name" required minlength="3">
+                                    <label for="name">Nombre del invocador</label>
+                                </div>
+                                <div class="field">
+                                    <input id="email" name="email" type="email" placeholder=" " autocomplete="email" required>
+                                    <label for="email">Correo de respuesta</label>
+                                </div>
+                                <div class="field">
+                                    <select id="service" name="service" required>
+                                        <option value="" selected disabled></option>
+                                        <option>Impresión 2D artesanal</option>
+                                        <option>Impresión 3D mágica</option>
+                                        <option>Proyecto mixto 2D + 3D</option>
+                                        <option>Asesoría de materiales</option>
+                                    </select>
+                                    <label for="service">Tipo de pedido</label>
+                                    <i class="select-icon" data-lucide="chevron-down"></i>
+                                </div>
+                                <div class="field">
+                                    <select id="timeline" name="timeline" required>
+                                        <option value="" selected disabled></option>
+                                        <option>Ritual tranquilo: 3 a 4 semanas</option>
+                                        <option>Encargo ágil: 10 a 15 días</option>
+                                        <option>Conjuro urgente: consultar disponibilidad</option>
+                                    </select>
+                                    <label for="timeline">Tiempo ideal</label>
+                                    <i class="select-icon" data-lucide="chevron-down"></i>
+                                </div>
+                                <div class="field">
+                                    <textarea id="message" name="message" placeholder=" " required minlength="20"></textarea>
+                                    <label for="message">Descripción del proyecto</label>
+                                </div>
+                                <p class="form-status" id="formStatus" aria-live="polite"></p>
+                                <button class="btn" type="submit">
+                                    <span class="send-label"><i data-lucide="wand-sparkles"></i> Enviar hechizo</span>
+                                    <span class="loader" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                        </form>
+                        <aside class="contact-aside">
+                            <div class="note-card">
+                                <h3>Antes de escribir</h3>
+                                <p>Sumá medidas, cantidad, uso final y referencias visuales. Cuanto más claro sea el mapa, mejor será el encantamiento.</p>
+                            </div>
+                            <div class="note-card">
+                                <h3>Horarios del taller</h3>
+                                <p>De lunes a viernes, desde el amanecer hasta el crepúsculo.</p>
+                            </div>
+                            <div class="note-card">
+                                <h3>Materiales frecuentes</h3>
+                                <p>Papel texturado, cartulina premium, PLA, PETG, resina de alta definición y acabados metálicos.</p>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-grid">
+                <div>
+                    <strong>Tinta & Alquimia</strong>
+                    <p>Impresión artesanal 2D y fabricación mágica 3D para piezas que merecen existir con carácter.</p>
+                </div>
+                <div>
+                    <strong>Redes del atelier</strong>
+                    <div class="socials">
+                        <a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+                        <a href="#" aria-label="Comunidad"><i data-lucide="messages-square"></i></a>
+                        <a href="#" aria-label="Behance"><i data-lucide="palette"></i></a>
+                        <a href="#" aria-label="Correo"><i data-lucide="mail"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <strong>Políticas</strong>
+                    <div class="policy-links">
+                        <a href="#">Privacidad</a>
+                        <a href="#">Términos</a>
+                        <a href="#">Garantía de piezas</a>
+                    </div>
+                    <p>© 2026 Tinta & Alquimia. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </footer>
     </div>
-  </section>
 
-  <!-- SERVICES SECTION / LAS ARTES DEL TALLER -->
-  <section id="servicios" class="services-section starry-bg">
-    <div class="container">
-      <div class="text-center fade-up-init" style="margin-bottom: 60px;">
-        <div class="hero-badge" style="background-color: rgba(223, 177, 91, 0.1); border-color: rgba(223, 177, 91, 0.25);">Catálogo del Gremio</div>
-        <h2 class="section-title font-serif" style="color: var(--color-parchment);">Las Artes del Taller</h2>
-        <div class="hand-drawn-divider" style="margin: 15px auto 25px auto;"></div>
-        <p class="section-subtitle font-sans" style="color: var(--color-text-light); max-width: 600px; margin: 0 auto; opacity: 0.8;">
-          Dividimos nuestros encantos en dos disciplinas fundamentales. Elige tu sendero de creación o combina ambos en un solo encargo.
-        </p>
-      </div>
-      
-      <div class="services-grid">
-        <!-- 2D Services Column -->
-        <div class="services-column fade-up-init">
-          <div class="discipline-header">
-            <div class="discipline-icon">
-              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-            </div>
-            <h3 class="font-serif">Artes de la Tinta (Impresión 2D)</h3>
-          </div>
-          
-          <div class="cards-list">
-            <!-- Card 1 -->
-            <div class="service-card gold-border-container">
-              <div class="gold-border-inner starry-bg card-content">
-                <div class="card-magic-circle-bg">
-                  <svg viewBox="0 0 100 100" width="130" height="130" stroke="currentColor" fill="none">
-                    <circle cx="50" cy="50" r="45" stroke-dasharray="4 4" stroke-width="1"/>
-                    <circle cx="50" cy="50" r="35" stroke-width="0.8"/>
-                    <polygon points="50,15 80,75 20,75" stroke-width="0.8"/>
-                  </svg>
-                </div>
-                <h4 class="font-serif text-gold">Grimorios de Tapas de Cuero</h4>
-                <p class="font-sans text-light">Encuadernación de pliegos antiguos cosidos a mano. Cubiertas de cuero curtido con relieves dorados al calor. Ideal para manuales de magia, diarios de viaje o bitácoras alquímicas de estudio.</p>
-                <div class="service-tag">Papel Envejecido</div>
-              </div>
-            </div>
-            
-            <!-- Card 2 -->
-            <div class="service-card gold-border-container">
-              <div class="gold-border-inner starry-bg card-content">
-                <div class="card-magic-circle-bg">
-                  <svg viewBox="0 0 100 100" width="130" height="130" stroke="currentColor" fill="none">
-                    <circle cx="50" cy="50" r="45" stroke-dasharray="6 2" stroke-width="1"/>
-                    <polygon points="50,15 75,40 75,75 25,75 25,40" stroke-width="0.8"/>
-                  </svg>
-                </div>
-                <h4 class="font-serif text-gold">Pergaminos Celestes Reactivos</h4>
-                <p class="font-sans text-light">Mapas estelares y cartas de navegación impresas con tintas reactivas al calor o luz ultravioleta. Los senderos ocultos y anotaciones secretas se revelan solo ante el fuego de una vela.</p>
-                <div class="service-tag">Tinta Reactiva</div>
-              </div>
-            </div>
-            
-            <!-- Card 3 -->
-            <div class="service-card gold-border-container">
-              <div class="gold-border-inner starry-bg card-content">
-                <div class="card-magic-circle-bg">
-                  <svg viewBox="0 0 100 100" width="130" height="130" stroke="currentColor" fill="none">
-                    <circle cx="50" cy="50" r="45" stroke-width="1"/>
-                    <line x1="50" y1="5" x2="50" y2="95" stroke-width="0.8"/>
-                    <line x1="5" y1="50" x2="95" y2="50" stroke-width="0.8"/>
-                  </svg>
-                </div>
-                <h4 class="font-serif text-gold">Correspondencia Rúnica & Naipes</h4>
-                <p class="font-sans text-light">Tarjetas de presentación grabadas con sellos de lacre, cartas formales de gremio e barajas ilustradas con cantos metalizados y texturas de algodón de altísima densidad.</p>
-                <div class="service-tag">Relieve & Foil Oro</div>
-              </div>
-            </div>
-          </div>
+    <div class="modal" id="successModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal-card">
+            <div class="modal-sigil" aria-hidden="true"><i data-lucide="sparkles"></i></div>
+            <h2 id="modalTitle">¡Hechizo de Contacto Enviado con Éxito!</h2>
+            <p>Nuestros mensajeros alados responderán pronto.</p>
+            <button class="btn" type="button" id="closeModal"><i data-lucide="check"></i> Cerrar portal</button>
         </div>
-        
-        <!-- 3D Services Column -->
-        <div class="services-column fade-up-init">
-          <div class="discipline-header">
-            <div class="discipline-icon">
-              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-            </div>
-            <h3 class="font-serif">Alquimia de Hilos (Impresión 3D)</h3>
-          </div>
-          
-          <div class="cards-list">
-            <!-- Card 4 -->
-            <div class="service-card gold-border-container">
-              <div class="gold-border-inner starry-bg card-content">
-                <div class="card-magic-circle-bg">
-                  <svg viewBox="0 0 100 100" width="130" height="130" stroke="currentColor" fill="none">
-                    <circle cx="50" cy="50" r="45" stroke-dasharray="2 4" stroke-width="1"/>
-                    <path d="M30,30 L70,30 L70,70 L30,70 Z" transform="rotate(15 50 50)" stroke-width="0.8"/>
-                  </svg>
-                </div>
-                <h4 class="font-serif text-gold">Miniaturas & Criaturas Místicas</h4>
-                <p class="font-sans text-light">Impresión en resina fotosensible de definición ultra-alta (8K) para capturar el mínimo detalle de familiares, figuras mitológicas o héroes personalizados para tu mesa de campaña.</p>
-                <div class="service-tag">Resina Ultra HD</div>
-              </div>
-            </div>
-            
-            <!-- Card 5 -->
-            <div class="service-card gold-border-container">
-              <div class="gold-border-inner starry-bg card-content">
-                <div class="card-magic-circle-bg">
-                  <svg viewBox="0 0 100 100" width="130" height="130" stroke="currentColor" fill="none">
-                    <circle cx="50" cy="50" r="45" stroke-width="1"/>
-                    <polygon points="50,20 75,50 50,80 25,50" stroke-width="0.8"/>
-                    <circle cx="50" cy="50" r="6" stroke-width="0.8"/>
-                  </svg>
-                </div>
-                <h4 class="font-serif text-gold">Amuletos y Runas del Reino</h4>
-                <p class="font-sans text-light">Talismanes de bolsillo fabricados con filamentos especiales infusionados con polvos de bronce, cobre o compuestos fosforescentes que cargan luz diurna para brillar por la noche.</p>
-                <div class="service-tag">Filamentos de Metal</div>
-              </div>
-            </div>
-            
-            <!-- Card 6 -->
-            <div class="service-card gold-border-container">
-              <div class="gold-border-inner starry-bg card-content">
-                <div class="card-magic-circle-bg">
-                  <svg viewBox="0 0 100 100" width="130" height="130" stroke="currentColor" fill="none">
-                    <circle cx="50" cy="50" r="45" stroke-dasharray="8 6" stroke-width="1"/>
-                    <path d="M 50,25 C 65,35 65,65 50,75 C 35,65 35,35 50,25 Z" stroke-width="0.8"/>
-                  </svg>
-                </div>
-                <h4 class="font-serif text-gold">Engranajes & Dispositivos Alquímicos</h4>
-                <p class="font-sans text-light">Mecanismos mecánicos funcionales impresos en polímeros de grado estructural. Engranajes para astrolabios, péndulos adivinatorios o cajas de acertijos con ajuste exacto.</p>
-                <div class="service-tag">Ingeniería Fantástica</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </section>
 
-  <!-- TESTIMONIALS SECTION / VOCES DEL REINO -->
-  <section id="reseñas" class="testimonials-section parchment-bg">
-    <div class="container">
-      <div class="text-center fade-up-init" style="margin-bottom: 60px;">
-        <div class="hero-badge">Voces del Reino</div>
-        <h2 class="section-title font-serif">Reseñas de Magos e Inventores</h2>
-        <div class="hand-drawn-divider" style="margin: 15px auto 25px auto;"></div>
-        <p class="section-subtitle font-sans" style="color: var(--color-text-dark); max-width: 600px; margin: 0 auto; opacity: 0.85;">
-          Nuestros tomos y amuletos viajan a través de los mapas. Conoce el testimonio de quienes confiaron sus invocaciones a nuestro taller.
-        </p>
-      </div>
-      
-      <div class="testimonials-grid">
-        <!-- Testimonial 1 -->
-        <div class="testimonial-card tarot-card fade-up-init">
-          <div class="tarot-card-inner">
-            <div class="tarot-header">
-              <span class="tarot-num">I</span>
-              <span class="tarot-title font-serif">EL ARCHIMAGO</span>
-              <span class="tarot-num">I</span>
-            </div>
-            
-            <div class="tarot-avatar-frame">
-              <svg viewBox="0 0 100 100" class="tarot-avatar">
-                <polygon points="50,5 65,35 95,50 65,65 50,95 35,65 5,50 35,35" fill="none" stroke="rgba(223, 177, 91, 0.3)" stroke-width="1.2" />
-                <circle cx="50" cy="50" r="19" fill="none" stroke="var(--color-gold)" stroke-width="1.5" />
-                <path d="M 50,15 L 37,42 L 63,42 Z" fill="var(--color-cobalt)" stroke="var(--color-gold)" stroke-width="1" />
-                <path d="M 28,76 C 28,62 72,62 72,76 Z" fill="var(--color-cobalt)" stroke="var(--color-gold)" stroke-width="1" />
-                <circle cx="45" cy="50" r="1.5" fill="var(--color-starlight)" />
-                <circle cx="55" cy="50" r="1.5" fill="var(--color-starlight)" />
-              </svg>
-            </div>
-            
-            <div class="tarot-rating">
-              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-            </div>
-            
-            <p class="tarot-quote font-sans">
-              "Encargué la impresión de mi grimorio de combate. El papel resiste chispas accidentales y la encuadernación rúnica es impenetrable. ¡Mis hechizos ya no se queman a mitad de la batalla!"
-            </p>
-            
-            <div class="tarot-footer">
-              <div class="tarot-name font-serif">Ignis Stormweaver</div>
-              <div class="tarot-role font-sans">Archimago de la Llama</div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Testimonial 2 -->
-        <div class="testimonial-card tarot-card fade-up-init">
-          <div class="tarot-card-inner">
-            <div class="tarot-header">
-              <span class="tarot-num">II</span>
-              <span class="tarot-title font-serif">LA INVENTORA</span>
-              <span class="tarot-num">II</span>
-            </div>
-            
-            <div class="tarot-avatar-frame">
-              <svg viewBox="0 0 100 100" class="tarot-avatar">
-                <circle cx="50" cy="50" r="30" fill="none" stroke="rgba(223, 177, 91, 0.2)" stroke-width="1" stroke-dasharray="3 3" />
-                <circle cx="50" cy="50" r="20" fill="none" stroke="var(--color-gold)" stroke-width="1.5" />
-                <circle cx="42" cy="50" r="5.5" fill="var(--color-emerald)" stroke="var(--color-gold)" stroke-width="1.2" />
-                <circle cx="58" cy="50" r="5.5" fill="var(--color-emerald)" stroke="var(--color-gold)" stroke-width="1.2" />
-                <path d="M 47,50 L 53,50" stroke="var(--color-gold)" stroke-width="2" />
-                <path d="M 28,78 C 28,64 72,64 72,78 Z" fill="var(--color-cobalt)" stroke="var(--color-gold)" stroke-width="1" />
-              </svg>
-            </div>
-            
-            <div class="tarot-rating">
-              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-            </div>
-            
-            <p class="tarot-quote font-sans">
-              "Los engranajes alquímicos impresos en bronce 3D encajan a la perfección en mi autómata mensajero. La resistencia mecánica es soberbia y la transferencia de energía mágica no tiene pérdidas."
-            </p>
-            
-            <div class="tarot-footer">
-              <div class="tarot-name font-serif">Evelyn Sterling</div>
-              <div class="tarot-role font-sans">Ingeniera de Autómatas</div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Testimonial 3 -->
-        <div class="testimonial-card tarot-card fade-up-init">
-          <div class="tarot-card-inner">
-            <div class="tarot-header">
-              <span class="tarot-num">III</span>
-              <span class="tarot-title font-serif">EL CARTÓGRAFO</span>
-              <span class="tarot-num">III</span>
-            </div>
-            
-            <div class="tarot-avatar-frame">
-              <svg viewBox="0 0 100 100" class="tarot-avatar">
-                <path d="M 62,28 A 20,20 0 1,0 82,48 A 14,14 0 1,1 62,28 Z" fill="none" stroke="rgba(223, 177, 91, 0.35)" stroke-width="1" />
-                <circle cx="50" cy="50" r="18" fill="none" stroke="var(--color-gold)" stroke-width="1.5" />
-                <path d="M 50,21 Q 36,44 36,54 Q 50,64 64,54 Q 64,44 50,21 Z" fill="var(--color-cobalt)" stroke="var(--color-gold)" stroke-width="1" />
-                <path d="M 30,78 C 30,64 70,64 70,78 Z" fill="var(--color-cobalt)" stroke="var(--color-gold)" stroke-width="1" />
-              </svg>
-            </div>
-            
-            <div class="tarot-rating">
-              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-            </div>
-            
-            <p class="tarot-quote font-sans">
-              "El pergamino celeste reactivo es sublime. Sus líneas de estrellas brillan en la penumbra del barco orientándonos en mar abierto. Capturan las constelaciones con una nitidez maravillosa."
-            </p>
-            
-            <div class="tarot-footer">
-              <div class="tarot-name font-serif">Zephyr Whispering</div>
-              <div class="tarot-role font-sans">Navegante Astral</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <script>
+        const header = document.getElementById("siteHeader");
+        const navToggle = document.getElementById("navToggle");
+        const navMenu = document.getElementById("navMenu");
+        const form = document.getElementById("spellForm");
+        const formStatus = document.getElementById("formStatus");
+        const modal = document.getElementById("successModal");
+        const closeModal = document.getElementById("closeModal");
 
-  <!-- CONTACT FORM / EL BUZÓN DE HECHIZOS -->
-  <section id="contacto" class="contact-section starry-bg">
-    <div class="container">
-      <div class="text-center fade-up-init" style="margin-bottom: 50px;">
-        <div class="hero-badge" style="background-color: rgba(223, 177, 91, 0.1); border-color: rgba(223, 177, 91, 0.25);">Comunión Directa</div>
-        <h2 class="section-title font-serif" style="color: var(--color-parchment);">El Buzón de Hechizos</h2>
-        <div class="hand-drawn-divider" style="margin: 15px auto 25px auto;"></div>
-        <p class="section-subtitle font-sans" style="color: var(--color-text-light); max-width: 600px; margin: 0 auto; opacity: 0.8;">
-          Invoca tu encargo. Escribe las especificaciones en nuestro libro y prepararemos la transmutación gráfica o tridimensional pertinente.
-        </p>
-      </div>
-      
-      <div class="spellbook-container fade-up-init" style="filter: url(#hand-drawn);">
-        <!-- Left page (instruction & candle) -->
-        <div class="spellbook-left parchment-bg">
-          <div>
-            <h3 class="font-serif text-cobalt" style="margin-bottom: 18px;">Instrucciones del Rito</h3>
-            <ul class="spellbook-rules font-sans">
-              <li><strong>Invocador:</strong> Escribe tu nombre o el sello del gremio para iniciar el proceso mágico.</li>
-              <li><strong>Contacto:</strong> Proporciona un buzón de éter (correo) activo para recibir nuestras respuestas.</li>
-              <li><strong>Arte:</strong> Elige el plano dimensional de materialización física (2D, 3D o combinado).</li>
-              <li><strong>Especificaciones:</strong> Describe las runas, texturas, formas y propósitos místicos requeridos.</li>
-            </ul>
-          </div>
-          
-          <!-- Candle Interactive element -->
-          <div class="spellbook-candle-container">
-            <div class="candle">
-              <div class="flame"></div>
-              <div class="wick"></div>
-              <div class="wax"></div>
-            </div>
-            <p class="candle-hint font-sans">Haz clic en la llama para atenuar/encender la vela de concentración.</p>
-          </div>
-          
-          <div class="runic-decorations-left">
-            <span>☄</span><span>❈</span><span>☉</span><span>☽</span>
-          </div>
-        </div>
-        
-        <!-- Right page (the form fields) -->
-        <div class="spellbook-right">
-          <form id="contactForm" autocomplete="off" novalidate>
-            <div class="form-group">
-              <input type="text" id="name" class="form-input" placeholder=" " required>
-              <label for="name" class="form-label">Nombre del Invocador</label>
-              <div class="form-error font-sans" id="nameError">El nombre del invocador es obligatorio.</div>
-            </div>
-            
-            <div class="form-group">
-              <input type="email" id="email" class="form-input" placeholder=" " required>
-              <label for="email" class="form-label">Correo del Mensajero</label>
-              <div class="form-error font-sans" id="emailError">Introduce una dirección de correo válida.</div>
-            </div>
-            
-            <div class="form-group">
-              <select id="service" class="form-select" required>
-                <option value="" disabled selected hidden></option>
-                <option value="2d">Impresión 2D (Grimorios, Pergaminos, Arte en Papel)</option>
-                <option value="3d">Impresión 3D (Amuletos, Runas, Engranajes Mágicos)</option>
-                <option value="mixed">Combinado (Tinta y Alquimia de Filamento)</option>
-              </select>
-              <label for="service" class="form-label">Tipo de Encanto / Servicio</label>
-              <div class="form-error font-sans" id="serviceError">Debes seleccionar una disciplina artesanal.</div>
-            </div>
-            
-            <div class="form-group">
-              <textarea id="message" class="form-textarea" placeholder=" " required></textarea>
-              <label for="message" class="form-label">Especificaciones del Hechizo (Tu Proyecto)</label>
-              <div class="form-error font-sans" id="messageError">Cuéntanos los detalles y medidas del encargo.</div>
-            </div>
-            
-            <div class="form-checkbox-group">
-              <input type="checkbox" id="terms" class="form-checkbox" required>
-              <label for="terms" class="form-checkbox-label font-sans">
-                Acepto los términos de transmutación y el código ético del taller de magia.
-              </label>
-            </div>
-            <div class="form-error font-sans" id="termsError" style="margin-top: -22px; margin-bottom: 22px;">Es mandatorio aceptar el código ético para continuar.</div>
-            
-            <button type="submit" class="btn btn-magic-large" style="width: 100%;">
-              Conjurar Pedido
-              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 10px;">
-                <polygon points="5 3 19 12 5 21 5 3"></polygon>
-              </svg>
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
+        const refreshHeader = () => {
+            header.classList.toggle("scrolled", window.scrollY > 18);
+        };
 
-  <!-- FOOTER -->
-  <footer class="footer starry-bg">
-    <div class="container footer-container">
-      <div class="footer-brand">
-        <a href="#inicio" class="logo-wrap" style="color: var(--color-gold); margin-bottom: 18px;">
-          <svg viewBox="0 0 100 100" width="38" height="38" fill="none" stroke="currentColor">
-            <circle cx="50" cy="50" r="45" stroke-width="2" />
-            <circle cx="50" cy="50" r="38" stroke-dasharray="3 2" stroke-width="1.5" />
-            <path d="M 35,65 L 60,40" stroke-width="3" stroke-linecap="round" />
-            <path d="M 62,38 L 65,25 L 57,33 Z" fill="currentColor" />
-            <path d="M 65,65 L 40,40" stroke-width="3" stroke-linecap="round" />
-            <path d="M 33,37 L 25,35 L 28,42 Z" fill="currentColor" />
-            <path d="M 50,42 L 52,48 L 58,50 L 52,52 L 50,58 L 48,52 L 42,50 L 48,48 Z" fill="currentColor" />
-          </svg>
-          <span class="logo-title font-serif" style="color: var(--color-parchment); font-size: 20px;">TINTA & ALQUIMIA</span>
-        </a>
-        <p class="footer-desc font-sans text-light opacity-8">
-          Donde la sabiduría del papel antiguo se materializa a través de filamentos estelares. Imprenta mágica artesanal y manufactura mística en tres dimensiones.
-        </p>
-        <div class="footer-socials">
-          <a href="#" class="social-link" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-          </a>
-          <a href="#" class="social-link" aria-label="Twitter">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
-          </a>
-          <a href="#" class="social-link" aria-label="GitHub">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-          </a>
-          <a href="#" class="social-link" aria-label="Discord">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a3 3 0 0 0-3-3H5a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8z"></path><path d="M10 12h.01M14 12h.01M6 8a4 4 0 0 1 8 0v4H6V8z"></path></svg>
-          </a>
-        </div>
-      </div>
-      
-      <div class="footer-hours">
-        <h4 class="font-serif text-gold">Horarios del Atelier</h4>
-        <ul class="hours-list font-sans text-light opacity-8">
-          <li><strong>Lunes a Viernes:</strong> Desde el amanecer hasta el crepúsculo.</li>
-          <li><strong>Sábados:</strong> Bajo alineación astral (cita previa).</li>
-          <li><strong>Domingos:</strong> Descanso por recarga de maná y cuna fría.</li>
-        </ul>
-      </div>
-      
-      <div class="footer-links">
-        <h4 class="font-serif text-gold">Coordenadas</h4>
-        <p class="font-sans text-light opacity-8" style="margin-bottom: 18px;">
-          Callejón de la Pluma Dorada Nº 7,<br>Distrito de la Gran Alquimia,<br>Ciudad del Domo Celeste
-        </p>
-        <ul class="footer-links-list font-sans">
-          <li><a href="#" class="footer-link">Código de Ética Mágica</a></li>
-          <li><a href="#" class="footer-link">Leyes de Transmutación Rúnica</a></li>
-        </ul>
-      </div>
-    </div>
-    
-    <div class="footer-bottom font-sans">
-      <p>&copy; 2026 Tinta & Alquimia. Todos los derechos reservados. Diseñado bajo el influjo estelar del Atelier.</p>
-    </div>
-  </footer>
+        const closeMenu = () => {
+            navMenu.classList.remove("is-open");
+            navToggle.setAttribute("aria-expanded", "false");
+            navToggle.setAttribute("aria-label", "Abrir menú");
+        };
 
-  <!-- CONJURING LOADING OVERLAY -->
-  <div class="conjuring-overlay" id="conjuringOverlay">
-    <div class="conjuring-content">
-      <div class="conjuring-circle-container">
-        <svg class="loading-magic-circle" viewBox="0 0 200 200" width="160" height="160">
-          <circle cx="100" cy="100" r="90" fill="none" stroke="var(--color-gold)" stroke-width="1.5" stroke-dasharray="12 6 4 4" />
-          <circle cx="100" cy="100" r="75" fill="none" stroke="var(--color-gold)" stroke-width="1" />
-          <path d="M 100,25 L 165,135 L 35,135 Z" fill="none" stroke="var(--color-starlight)" stroke-width="1" opacity="0.6" />
-          <path d="M 100,175 L 165,65 L 35,65 Z" fill="none" stroke="var(--color-starlight)" stroke-width="1" opacity="0.6" />
-          <circle cx="100" cy="100" r="50" fill="none" stroke="var(--color-gold)" stroke-width="2" stroke-dasharray="3 5" />
-          <circle cx="100" cy="100" r="25" fill="none" stroke="var(--color-amber)" stroke-width="3" stroke-linecap="round" stroke-dasharray="30 15" class="spinner-center" />
-        </svg>
-      </div>
-      <h3 class="font-serif">Canalizando Éter...</h3>
-      <p>Sellando tu petición en las corrientes celestes.</p>
-    </div>
-  </div>
+        const openModal = () => {
+            modal.classList.add("is-open");
+            modal.setAttribute("aria-hidden", "false");
+            closeModal.focus();
+        };
 
-  <!-- SUCCESS MODAL OVERLAY -->
-  <div class="success-modal-overlay" id="successModal">
-    <div class="success-modal gold-border-container" style="filter: url(#hand-drawn);">
-      <div class="gold-border-inner parchment-bg text-center" style="padding: 40px 30px;">
-        <div class="success-seal">
-          <svg viewBox="0 0 100 100" width="80" height="80">
-            <circle cx="50" cy="50" r="45" fill="none" stroke="var(--color-emerald)" stroke-width="2" />
-            <path d="M 32,50 L 45,63 L 68,36" fill="none" stroke="var(--color-emerald)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
-            <circle cx="28" cy="30" r="2.5" fill="var(--color-gold)" />
-            <circle cx="72" cy="26" r="3" fill="var(--color-gold)" />
-            <circle cx="78" cy="68" r="2" fill="var(--color-gold)" />
-            <circle cx="22" cy="68" r="2.5" fill="var(--color-gold)" />
-          </svg>
-        </div>
-        <h3 class="font-serif text-cobalt" style="font-size: 24px; margin-bottom: 15px;">¡Hechizo de Contacto Enviado con Éxito!</h3>
-        <p class="text-dark font-sans" style="font-size: 15px; line-height: 1.6; margin-bottom: 25px;">
-          Nuestros mensajeros alados responderán pronto. El lacre alquímico ha cerrado tu mensaje y las corrientes ya conducen a nuestros búhos veloces.
-        </p>
-        <button class="btn btn-magic-large" id="closeSuccessBtn" style="width: 80%;">Cerrar Portal</button>
-      </div>
-    </div>
-  </div>
+        const hideModal = () => {
+            modal.classList.remove("is-open");
+            modal.setAttribute("aria-hidden", "true");
+        };
 
-  <!-- JAVASCRIPT LOGIC -->
-  <script>
-    // HEADER SCROLL EVENT
-    const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-    });
-
-    // MOBILE MENU NAVIGATION
-    const mobileToggle = document.querySelector('.mobile-toggle');
-    const mobileClose = document.querySelector('.mobile-menu-close');
-    const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
-    const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
-
-    mobileToggle.addEventListener('click', () => {
-      mobileMenuOverlay.classList.add('active');
-    });
-
-    mobileClose.addEventListener('click', () => {
-      mobileMenuOverlay.classList.remove('active');
-    });
-
-    mobileMenuLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenuOverlay.classList.remove('active');
-      });
-    });
-
-    // INTERACTIVE PILLARS (ABOUT US)
-    const pilarButtons = document.querySelectorAll('.pilar-btn');
-    const pilarDetails = document.querySelectorAll('.pilar-detail');
-
-    pilarButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        pilarButtons.forEach(btn => btn.classList.remove('active'));
-        pilarDetails.forEach(detail => detail.classList.remove('active'));
-        
-        button.classList.add('active');
-        const targetId = `detail-${button.getAttribute('data-pilar')}`;
-        document.getElementById(targetId).classList.add('active');
-      });
-    });
-
-    // INTERACTIVE CANDLE (FORM)
-    const candle = document.querySelector('.candle');
-    const leftPage = document.querySelector('.spellbook-left');
-    
-    if (candle) {
-      candle.addEventListener('click', () => {
-        candle.classList.toggle('extinguished');
-        if (candle.classList.contains('extinguished')) {
-          leftPage.style.filter = 'brightness(0.85) sepia(0.2)';
-        } else {
-          leftPage.style.filter = 'none';
-        }
-      });
-    }
-
-    // FORM VALIDATION & SUBMISSION
-    const contactForm = document.getElementById('contactForm');
-    const nameInput = document.getElementById('name');
-    const emailInput = document.getElementById('email');
-    const serviceSelect = document.getElementById('service');
-    const messageTextarea = document.getElementById('message');
-    const termsCheckbox = document.getElementById('terms');
-    const termsError = document.getElementById('termsError');
-
-    const conjuringOverlay = document.getElementById('conjuringOverlay');
-    const successModal = document.getElementById('successModal');
-    const closeSuccessBtn = document.getElementById('closeSuccessBtn');
-
-    // Helper to clear error state on user input
-    const clearError = (inputEl) => {
-      inputEl.closest('.form-group').classList.remove('invalid');
-    };
-
-    nameInput.addEventListener('input', () => clearError(nameInput));
-    emailInput.addEventListener('input', () => clearError(emailInput));
-    messageTextarea.addEventListener('input', () => clearError(messageTextarea));
-    serviceSelect.addEventListener('change', () => clearError(serviceSelect));
-    termsCheckbox.addEventListener('change', () => {
-      if (termsCheckbox.checked) {
-        termsError.style.display = 'none';
-      }
-    });
-
-    // Form Validator
-    function validateForm() {
-      let isValid = true;
-
-      // Validate Name
-      if (!nameInput.value.trim()) {
-        nameInput.closest('.form-group').classList.add('invalid');
-        isValid = false;
-      }
-
-      // Validate Email
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailInput.value.trim() || !emailRegex.test(emailInput.value)) {
-        emailInput.closest('.form-group').classList.add('invalid');
-        isValid = false;
-      }
-
-      // Validate Service
-      if (!serviceSelect.value) {
-        serviceSelect.closest('.form-group').classList.add('invalid');
-        isValid = false;
-      }
-
-      // Validate Message
-      if (!messageTextarea.value.trim()) {
-        messageTextarea.closest('.form-group').classList.add('invalid');
-        isValid = false;
-      }
-
-      // Validate Terms
-      if (!termsCheckbox.checked) {
-        termsError.style.display = 'block';
-        isValid = false;
-      }
-
-      return isValid;
-    }
-
-    if (contactForm) {
-      contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        if (!validateForm()) {
-          return;
-        }
-
-        // Lock form inputs
-        const formControls = contactForm.querySelectorAll('input, select, textarea, button');
-        formControls.forEach(ctrl => ctrl.disabled = true);
-
-        // Open Conjuring overlay
-        conjuringOverlay.classList.add('active');
-
-        // Materialize spell simulation
-        setTimeout(() => {
-          conjuringOverlay.classList.remove('active');
-          successModal.classList.add('active');
-        }, 2600);
-      });
-    }
-
-    if (closeSuccessBtn) {
-      closeSuccessBtn.addEventListener('click', () => {
-        successModal.classList.remove('active');
-        
-        // Reset form controls
-        const formControls = contactForm.querySelectorAll('input, select, textarea, button');
-        formControls.forEach(ctrl => ctrl.disabled = false);
-        contactForm.reset();
-        
-        // Clear select styling
-        serviceSelect.closest('.form-group').classList.remove('invalid');
-      });
-    }
-
-    // SCROLL ANIMATIONS INTERSECTION OBSERVER
-    const animElements = document.querySelectorAll('.fade-up-init');
-    const animObserverOptions = {
-      root: null,
-      threshold: 0.12,
-      rootMargin: '0px'
-    };
-
-    const animObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          observer.unobserve(entry.target); // Trigger once
-        }
-      });
-    }, animObserverOptions);
-
-    animElements.forEach(el => animObserver.observe(el));
-
-    // CLICK SPARKLES EFFECT
-    document.addEventListener('click', (e) => {
-      // Exclude clicking on interactive triggers to prevent clutter
-      if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input') || e.target.closest('textarea') || e.target.closest('select')) {
-        return;
-      }
-      triggerSparks(e.clientX, e.clientY);
-    });
-
-    function triggerSparks(x, y) {
-      const parent = document.body;
-      const count = 9;
-      const sparkSymbols = ['✦', '★', '✧', '•'];
-      const colors = ['#dfb15b', '#fef08a', '#f59e0b', '#dfb15b'];
-
-      for (let i = 0; i < count; i++) {
-        const span = document.createElement('div');
-        span.className = 'click-sparkle';
-        span.textContent = sparkSymbols[Math.floor(Math.random() * sparkSymbols.length)];
-        span.style.left = `${x}px`;
-        span.style.top = `${y}px`;
-        span.style.color = colors[Math.floor(Math.random() * colors.length)];
-
-        // Compute angle and offset for explosion physics
-        const angle = Math.random() * Math.PI * 2;
-        const force = 15 + Math.random() * 55;
-        const tx = Math.cos(angle) * force;
-        const ty = Math.sin(angle) * force;
-
-        span.style.setProperty('--tx', `${tx}px`);
-        span.style.setProperty('--ty', `${ty}px`);
-
-        parent.appendChild(span);
-
-        span.addEventListener('animationend', () => {
-          span.remove();
+        navToggle.addEventListener("click", () => {
+            const isOpen = navMenu.classList.toggle("is-open");
+            navToggle.setAttribute("aria-expanded", String(isOpen));
+            navToggle.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
         });
-      }
-    }
-  </script>
+
+        navMenu.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", closeMenu);
+        });
+
+        window.addEventListener("scroll", refreshHeader, { passive: true });
+
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            if (!form.checkValidity()) {
+                formStatus.textContent = "Revisá los campos marcados para completar el conjuro.";
+                form.reportValidity();
+                return;
+            }
+
+            const controls = [...form.elements];
+            form.classList.add("is-sending");
+            formStatus.textContent = "Conjurando mensaje...";
+            controls.forEach((control) => {
+                control.disabled = true;
+            });
+
+            window.setTimeout(() => {
+                form.classList.remove("is-sending");
+                formStatus.textContent = "Mensaje sellado con cera estelar.";
+                openModal();
+                form.reset();
+                controls.forEach((control) => {
+                    control.disabled = false;
+                });
+            }, 1300);
+        });
+
+        closeModal.addEventListener("click", hideModal);
+
+        modal.addEventListener("click", (event) => {
+            if (event.target === modal) {
+                hideModal();
+            }
+        });
+
+        window.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                closeMenu();
+                hideModal();
+            }
+        });
+
+        refreshHeader();
+
+        if (window.lucide) {
+            window.lucide.createIcons({
+                attrs: {
+                    "stroke-width": 1.7
+                }
+            });
+        }
+    </script>
 </body>
 </html>
